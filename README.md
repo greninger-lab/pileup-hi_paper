@@ -1,6 +1,28 @@
 # pileup-hi - analysis code and instructions
 This repository contains code for the publication: "*pileup-hi: an ultra-high throughput, customizable pileup program for large datasets*"
 
+**Table of contents**
+- [pileup-hi - analysis code and instructions](#pileup-hi---analysis-code-and-instructions)
+  - [Additional repos](#additional-repos)
+  - [Prelude](#prelude)
+  - [Other software used](#other-software-used)
+  - [Overall description - generating data](#overall-description---generating-data)
+    - [bench.py - run time and peak memory usage](#benchpy---run-time-and-peak-memory-usage)
+    - [compare_output.py - output file hash calculation](#compare_outputpy---output-file-hash-calculation)
+    - [compare_size.py - compare output size differences between histo and plp output modes](#compare_sizepy---compare-output-size-differences-between-histo-and-plp-output-modes)
+  - [Other files](#other-files)
+  - [Contact](#contact)
+
+## Additional repos
+Large BAM files and copies of these files are hosted on the Zenodo repositories listed below:
+
+|DOI  | Description |
+| - | - 
+| https://doi.org/10.5281/zenodo.19612806 | pileup-hi analysis/inputs part 1
+| https://doi.org/10.5281/zenodo.19613934 | pileup-hi analysis/inputs part 2
+| https://doi.org/10.5281/zenodo.19614468 | pileup-hi analysis/inputs part 3
+
+
 ## Prelude
 
 - pileup-hi version 0.9.2 was used for all analysis. You can download it using Cargo:
@@ -32,7 +54,7 @@ Analysis consisted of running different pileup programs on five datasets. This w
 
 These scripts are described in detail below:
 
-### bench.py: run time and peak memory usage 
+### bench.py - run time and peak memory usage 
 
 This script launches tools on specified input files and records performance information to a spreadsheet `./reports/`.
 
@@ -93,7 +115,7 @@ python3 bench.py
 ```
 
 
-### compare_output.py: output file hash calculation
+### compare_output.py - output file hash calculation
 
 This script is adjustable similarly to `bench.py` (see above), except `METHODS` differs slightly in structure:
 ```python
@@ -120,7 +142,7 @@ python3 compare_output.py
 ```
 
 
-###  compare_size.py: compare output size differences between `pileup-hi`'s 'histo' and 'plp' output modes.
+###  compare_size.py - compare output size differences between histo and plp output modes
 
 See the previous two sections for what parameters to adjust. This script will output to a sphreadsheet prefixed by `./size_comp*`.
 
