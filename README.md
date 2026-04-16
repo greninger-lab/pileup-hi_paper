@@ -1,22 +1,25 @@
-# pileup-hi paper analysis
+# pileup-hi - analysis code and instructions
 This repository contains code for the publication: "*pileup-hi: an ultra-high throughput, customizable pileup program for large datasets*"
 
 ## Prelude
 
 - pileup-hi version 0.9.2 was used for all analysis. You can download it using Cargo:
-- All testing was performed on MacOS Sequoia 15.7.4
-- this analysis requires 1.5TB+ of disk space.
 
 ```bash
 cargo install pileup-hi --version 0.9.2
 ```
 
+You can also grab the pre-compiled binaries from the [original repo's release page](https://github.com/epiliper/pileup-hi/releases/tag/0.9.2).
+
+- All testing was performed on MacOS Sequoia 15.7.4
+- this analysis requires 1.5TB+ of disk space.
 
 ## Other software used
 - samtools 1.2.3
 - htslib 1.2.3
 - perbase 1.2.0
 - b3sum 1.8.3
+- xsra 0.2.27
 - minimap2 v2.30-r1290-dirty
 - python 3.14.2
 - R and Rstudio (along with packages specified in .Rmd files)
@@ -125,3 +128,18 @@ To run:
 ```bash
 python3 compare_size.py
 ```
+
+## Other files
+- `get_metrics.sh`: calculate alignment metrics such as depth, coverage, etc.
+- `hashes_2026Feb27.csv`: output file hashes comparing pileup-hi and samtools mpileup
+- `size_comp_2026Mar31.csv`: output file sizes comparing pileup-hi 'plp' and 'histo' output modes
+- `bench_report_2026Mar30.csv`: benchmark data
+- `para_mpileup.sh`: the parallel shell wrapper around samtools mpileup used in benchmarking. See the beginning of the script for instructions on usage.
+- `bench.Rmd`: figure generation script
+- `aln.sh`: script to generate BAMs from downloaded FASTQ data
+- `dl.sh`: script to download FASTQs from the SRA
+
+## Contact
+reach out to either:
+- epil02 #(at)# uw #(dot)# edu
+- agrening #(at)# uw #(dot)# edu
