@@ -1,167 +1,188 @@
-# pileup-hi - analysis code and instructions
-This repository contains code for the publication: "*pileup-hi: an ultra-high throughput, customizable pileup program for large datasets*"
+# pileup-hi — benchmarking and output comparison
 
-**Table of contents**
-- [pileup-hi - analysis code and instructions](#pileup-hi---analysis-code-and-instructions)
-  - [Additional repos](#additional-repos)
-  - [Prelude](#prelude)
-  - [Other software used](#other-software-used)
-  - [Overall description - generating data](#overall-description---generating-data)
-    - [bench.py - run time and peak memory usage](#benchpy---run-time-and-peak-memory-usage)
-    - [compare_output.py - output file hash calculation](#compare_outputpy---output-file-hash-calculation)
-    - [compare_size.py - compare output size differences between histo and plp output modes](#compare_sizepy---compare-output-size-differences-between-histo-and-plp-output-modes)
-  - [Other files](#other-files)
-  - [Contact](#contact)
+This repository contains the benchmarking and output-comparison code for the manuscript: *"pileup-hi: an ultra-high throughput, customizable pileup program for large datasets"*.
 
-## Additional repos
-Large BAM files and copies of these files are hosted on the Zenodo repositories listed below:
+For the pileup-hi tool itself (installation, usage, options), see [the main repo](https://github.com/epiliper/pileup-hi).
 
-|DOI  | Description |
-| - | - 
-| https://doi.org/10.5281/zenodo.19612806 | pileup-hi analysis/inputs part 1
-| https://doi.org/10.5281/zenodo.19613934 | pileup-hi analysis/inputs part 2
-| https://doi.org/10.5281/zenodo.19614468 | pileup-hi analysis/inputs part 3
+---
 
-
-## Prelude
-
-- pileup-hi version 0.9.2 was used for all analysis. You can download it using Cargo:
+## Quick start
 
 ```bash
-cargo install pileup-hi --version 0.9.2
+# 1. Set up the pixi environment (installs all dependencies)
+pixi install
+
+# 2. Download BAMs (or verify existing ones)
+pixi run snakemake-dl
+
+# 3. Run the full analysis pipeline
+pixi run all
 ```
 
-You can also grab the pre-compiled binaries from the [original repo's release page](https://github.com/epiliper/pileup-hi/releases/tag/0.9.2).
+## Requirements
 
-- All testing was performed on MacOS Sequoia 15.7.4
-- this analysis requires 1.5TB+ of disk space.
+- **pixi** — package manager; install via `curl -fsSL https://pixi.sh/install.sh | sh`
+- **1.5+ TB** free disk space for BAMs and outputs
+- **macOS** (tested on Sequoia 15.7.4) or Linux
+- **Homebrew** (macOS only, for sambamba workaround — see below)
 
-## Other software used
-- samtools 1.2.3
-- htslib 1.2.3
-- perbase 1.2.0
-- b3sum 1.8.3
-- xsra 0.2.27
-- minimap2 v2.30-r1290-dirty
-- python 3.14.2
-- R and Rstudio (along with packages specified in .Rmd files)
+## Setup
 
-**NOTE:** for the instructions below, it is assumed that you have all the software listed somewhere in `$PATH`. For information on how to move software to `$PATH`, see [this thread](https://unix.stackexchange.com/questions/183295/adding-programs-to-path). 
+### pixi environment
 
-## Overall description - generating data
+All dependencies (samtools, perbase, b3sum, bam-readcount, sambamba, python packages, etc.) are pinned in `pixi.toml` and installed via:
 
-Analysis consisted of running different pileup programs on five datasets. This was done 3 python scripts that can be adjusted to run a selection of tools on a selection of datasets. By default: they are configured to generate data for the entire paper.
-
-These scripts are described in detail below:
-
-### bench.py - run time and peak memory usage 
-
-This script launches tools on specified input files and records performance information to a spreadsheet `./reports/`.
-
-The script is configured by default to run all conditions on all files in triplicate, but you can modify this by changing the following variables: 
-
-change iterations:
-```python
-NUM_ITERATIONS = 3
-```
-
-change software/ output mode/ thread count:
-```python
-## tuple of command, output mode, threadcount (where applicable)
-METHODS = [
-
-        # ## Pileup Mode
-        (run_mpileup, "plp", 1),
-
-        (run_pileuphi, "plp", 1), 
-        (run_perbase, "plp", 1),
-        (run_parampileup, "plp", 1),
-
-        (run_pileuphi, "plp", 4), 
-        (run_perbase, "plp", 4),
-        (run_parampileup, "plp", 4),
-
-        (run_pileuphi, "plp", 8), 
-        (run_perbase, "plp", 8),
-        (run_parampileup, "plp", 8),
-
-        (run_pileuphi, "plp", 12), 
-        (run_perbase, "plp", 12),
-        (run_parampileup, "plp", 12),
-
-        ## Nucleotide frequency mode
-        (run_pileuphi, "histo", 1), 
-        (run_pileuphi, "histo", 4), 
-        (run_pileuphi, "histo", 8), 
-        (run_pileuphi, "histo", 12), 
-        ]
-
-```
-
-change files to run on:
-```python
-FILES = [
-    "DRR793869_hg38.bam",
-    "SRR19895870.bam",
-    "SRR36374445_hg38.bam",
-    "SRR30646149_hg38.bam",
-    "ERR2756169_merged.bam"
-        ]
-```
-
-Once you've adjusted this to your liking, run the following to gather benchmarking data:
 ```bash
-python3 bench.py
+pixi install
+pixi run setup
 ```
 
+`samtools mpileup` is used as the reference tool. `compare_output.py` and `bench.py` compare pileup-hi output directly against samtools mpileup.
 
-### compare_output.py - output file hash calculation
+### BAM files
 
-This script is adjustable similarly to `bench.py` (see above), except `METHODS` differs slightly in structure:
-```python
-# tuple of run func, ouptut mode, and threads
-METHODS = [
-        ("mpileup", run_mpileup, "plp", 1, ""), 
+Five datasets are used in the manuscript:
 
-        ("pileup-hi", run_pileuphi, "plp", 1),
+| BAM | Size | Source |
+|-----|------|--------|
+| `ERR2756169_merged.bam` | 7.2 G | SRA |
+| `SRR19895870.bam` | 8.4 G | SRA |
+| `SRR36374445_hg38.bam` | 38 G | SRA |
+| `SRR30646149_hg38.bam` | 36 G | SRA |
+| `DRR793869_hg38.bam` | 103 G | SRA |
 
-        ("parallel mpileup", run_parampileup, "plp", 4),
-        ("pileup-hi", run_pileuphi, "plp", 4),
+BAMs and their indices can be downloaded from Zenodo (see `ZENODO.md` for record URLs) via `snakemake`:
 
-        ("parallel mpileup", run_parampileup, "plp", 8),
-        ("pileup-hi", run_pileuphi, "plp", 8),
-
-        ("parallel mpileup", run_parampileup, "plp", 12),
-        ("pileup-hi", run_pileuphi, "plp", 12)
-        ]
-```
-
-to run this script: 
 ```bash
-python3 compare_output.py
+pixi run snakemake-dl
 ```
 
+A BLAKE3 checksum manifest is provided in `bam_manifest.b3sum`:
 
-###  compare_size.py - compare output size differences between histo and plp output modes
-
-See the previous two sections for what parameters to adjust. This script will output to a sphreadsheet prefixed by `./size_comp*`.
-
-To run: 
 ```bash
-python3 compare_size.py
+b3sum -c bam_manifest.b3sum
 ```
 
-## Other files
-- `get_metrics.sh`: calculate alignment metrics such as depth, coverage, etc.
-- `hashes_2026Feb27.csv`: output file hashes comparing pileup-hi and samtools mpileup
-- `size_comp_2026Mar31.csv`: output file sizes comparing pileup-hi 'plp' and 'histo' output modes
-- `bench_report_2026Mar30.csv`: benchmark data
-- `para_mpileup.sh`: the parallel shell wrapper around samtools mpileup used in benchmarking. See the beginning of the script for instructions on usage.
-- `bench.Rmd`: figure generation script
-- `aln.sh`: script to generate BAMs from downloaded FASTQ data
-- `dl.sh`: script to download FASTQs from the SRA
+### macOS sambamba workaround
 
-## Contact
-reach out to either:
-- epil02 #(at)# uw #(dot)# edu
-- agrening #(at)# uw #(dot)# edu
+The conda sambamba binary segfaults on macOS for us. `setup_sambamba.sh` automatically detects this and symlinks the Homebrew sambamba (1.0.1) into the pixi environment. This is run automatically as a dependency of `bench`, `compare-output`, and `compare-size`.
+
+If you don't use Homebrew, install sambamba 1.0.1 manually and symlink it to `~/.pixi/envs/default/bin/sambamba`.
+
+## Running the analysis
+
+### All at once
+
+```bash
+pixi run all
+```
+
+This runs benchmarking, output comparison, size comparison, and alignment metrics.
+
+### Individual steps
+
+#### bench.py — runtime and peak memory
+
+Records wall-clock time and peak RSS for each tool on each BAM. Results written to `reports/`.
+
+```bash
+pixi run bench
+```
+
+By default, this runs all tools in triplicate:
+- **pileup-hi plp**: 1, 4, 8, 12 threads
+- **samtools mpileup**: 1 thread
+- **perbase base-depth**: 1, 4, 8, 12 threads (multiple configurations: default, `-F 0`, `-c 50000`, `-C 1.0`)
+- **parallel mpileup** (`para_mpileup.sh`): 1, 4, 8, 12 threads
+- **sambamba mpileup**: 1, 4, 8, 12 threads
+- **bam-readcount**: 1 thread
+- **pileup-hi histo**: 1, 4, 8, 12 threads
+
+To change the set of tools, BAMs, or iteration count, edit the `METHODS`, `FILES`, and `NUM_ITERATIONS` variables at the top of `bench.py`.
+
+#### compare_output.py — output hash comparison
+
+Pipes each tool's output through `b3sum` and records the digest. Used to verify deterministic output across thread counts and equivalence to samtools mpileup.
+
+```bash
+pixi run compare-output
+```
+
+Results are written to `hashes/` as timestamped CSV files.
+
+#### compare_size.py — output size comparison
+
+Compares the compressed output size of `plp` vs `histo` mode for pileup-hi.
+
+```bash
+pixi run compare-size
+```
+
+Results written to `size_comp_*.csv`.
+
+#### Alignment metrics
+
+```bash
+pixi run metrics
+```
+
+Runs `get_metrics.sh` to compute depth, coverage, and related metrics.
+
+#### Figures and supplementary tables
+
+```bash
+pixi run figures
+pixi run supp-tables
+```
+
+## Tools compared
+
+| Tool | Version | Command |
+|------|---------|---------|
+| **pileup-hi** | 0.9.2 | `pileuphi` |
+| **samtools mpileup** | 1.23 | `samtools mpileup` |
+| **sambamba mpileup** | 1.0.1 | `sambamba mpileup` |
+| **perbase base-depth** | 1.2.0 | `perbase base-depth` |
+| **parallel mpileup** | — | `para_mpileup.sh` (shell wrapper around `samtools mpileup`) |
+| **bam-readcount** | latest | `bam-readcount` |
+
+### Flag consistency
+
+All tools are run with equivalent flags where possible:
+
+| Flag | All tools | Meaning |
+|------|-----------|---------|
+| `-d 0` | pileup-hi, samtools, perbase, para_mpileup | Unlimited depth |
+| `-q 0` | pileup-hi, samtools, sambamba | No minimum mapping quality |
+| `-Q 13` | pileup-hi, samtools, sambamba | Minimum base quality 13 |
+| `--ff 1796` | pileup-hi, samtools, sambamba | Exclude UNMAP, SECONDARY, QCFAIL, DUP |
+| `-F 3844` | perbase (default) | Exclude UNMAPPED, SECONDARY, QCFAIL, DUPLICATE, SUPPLEMENTARY |
+
+bam-readcount uses `--min-mapping-quality=0 --min-base-quality=0 --max-count=0`.
+
+## Output files
+| File | Description |
+|------|-------------|
+| `reports/bench_*.csv` | Runtime and memory benchmarks |
+| `hashes/*.csv` | Output hash results |
+| `size_comp_*.csv` | Output size comparisons |
+| `hashes_2026Feb27.csv` | Published output hashes (paper) |
+| `size_comp_2026Mar31.csv` | Published size comparison (paper) |
+| `bench_report_2026Mar30.csv` | Published benchmark data (paper) |
+
+## Scripts
+
+| Script | Description |
+|--------|-------------|
+| `bench.py` | Runtime and memory benchmarking |
+| `compare_output.py` | Output hash comparison (pileup-hi vs sambamba) |
+| `compare_size.py` | Output size comparison (plp vs histo) |
+| `scripts/setup_sambamba.sh` | macOS sambamba workaround |
+| `scripts/compare_streams.py` | Line-by-line stream comparison of two tools |
+| `para_mpileup.sh` | Parallel samtools mpileup wrapper |
+| `get_metrics.sh` | Alignment metrics computation |
+| `make_supp_tables.py` | Supplementary table generation |
+| `bench.Rmd` | Figure generation (Rmarkdown) |
+| `metrics.Rmd` | Metrics figure generation (Rmarkdown) |
+| `aln.sh` | BAM generation from FASTQ |
+| `dl.sh` | FASTQ download from SRA |

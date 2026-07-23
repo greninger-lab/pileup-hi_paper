@@ -1,8 +1,7 @@
-from bench import run_pileuphi, update_report
+from bench import run_pileuphi, run_sambamba, update_report
 import subprocess
 import pandas as pd
 from datetime import datetime
-import os
 
 FILES = [
     "ERR2756169_merged.bam",
@@ -15,7 +14,8 @@ FILES = [
 # tuple of run func, ouptut mode, and threads
 METHODS = [
         (run_pileuphi, "plp", 12),
-        (run_pileuphi, "histo", 12)
+        (run_pileuphi, "histo", 12),
+        (run_sambamba, "plp", 12)
         ]
 
 
@@ -31,21 +31,18 @@ def compare():
         for method_func, mode, threads in METHODS:
             tool, cmd = method_func(file, mode, threads)
 
-            output_path = f"{tool}_{file}_run_{date_time}"
+            tool_proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+            wc_proc = subprocess.Popen(
+                ["wc", "-c"], stdin=tool_proc.stdout, stdout=subprocess.PIPE
+            )
+            tool_proc.stdout.close()
+            wc_out, _ = wc_proc.communicate()
+            tool_proc.wait()
 
-            # Run tool and write its stdout directly to file (no shell, no ">")
-            with open(output_path, "w") as f:
-                subprocess.run(cmd, stdout=f, check=True, text=True)
-
-            size = os.path.getsize(output_path) / 1024**3 # get GB
+            size = int(wc_out.strip()) / 1024**3
 
             report = update_report(report, columns, [file, mode, size])
-            report.to_csv("size_comp_" + date_time + ".csv", index = None)
-            os.remove(output_path)
+            report.to_csv("size_comp_" + date_time + ".csv", index=None)
 
 if __name__ == "__main__":
     compare()
-            
-
-
-

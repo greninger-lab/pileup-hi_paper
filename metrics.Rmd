@@ -1,0 +1,55 @@
+---
+title: "metrics"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(stringr)
+```
+
+```{r}
+metrics = read.csv("aln_metrics.txt", sep = "\t") %>%
+  filter(!str_detect(Ref, "ChrM|chrM")) %>%
+  filter(!File %in% c("ERR2756166_merged.bam", "SRR30646148_hg38.bam", "SRR30646150_hg38.bam")) %>%
+  group_by(File) %>%
+  summarise(
+    Length = sum(Length),
+    Coverage = mean(Coverage),
+    MeanDepth = mean(MeanDepth),
+    ) %>%
+  mutate(
+    ReadLength = case_when(
+      str_detect(File, "ERR2756169") ~ "125",
+      str_detect(File, "DRR793869") ~ "151",
+      str_detect(File, "SRR19895870") ~ "150",
+      str_detect(File, "SRR30646149") ~ "16492 (s.d. = 4329.5)",
+      str_detect(File, "SRR36374445") ~ "298 (s.d. 44.0)",
+    .default = "0",
+    ),
+    
+    Paired = case_when(
+      str_detect(File, "ERR2756169") ~ "Y",
+      str_detect(File, "DRR793869") ~ "Y",
+      str_detect(File, "SRR19895870") ~ "Y",
+      str_detect(File, "SRR30646149") ~ "N",
+      str_detect(File, "SRR36374445") ~ "N",
+      .default = "INVALID"
+    ),
+    
+    NumMappedReads = case_when(
+      str_detect(File, "ERR2756169") ~ 204289198,
+      str_detect(File, "DRR793869") ~ 3666042016,
+      str_detect(File, "SRR19895870") ~ 222946962,
+      str_detect(File, "SRR30646149") ~ 6314395,
+      str_detect(File, "SRR36374445") ~ 746655952,
+      .default = -1
+      
+    )
+    
+  )
+```
+
+```{r}
+write.csv(metrics, "alignment_metrics_table.csv")
+```

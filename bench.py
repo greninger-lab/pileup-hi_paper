@@ -6,22 +6,45 @@ import pandas as pd
 import pysam
 from datetime import datetime
 
-MAX_DEPTH = 10_000_000
+NO_DEPTH_LIMIT = 0
+MAPQ_MIN = 0
+BASEQ_MIN = 0
+
 
 class MemoryOveruseException(Exception):
     pass
 
 def run_parampileup(input: str, _mode: str, threads: int) -> tuple[str, list[str]]:
-    return "para_mpileup " + str(threads) + " threads", ["bash", "para_mpileup.sh", "-t", str(threads), "-d", str(MAX_DEPTH), "-b", input, "-o", "/dev/null"]
+    return "para_mpileup " + str(threads) + " threads", ["bash", "para_mpileup.sh", "-t", str(threads), "-d", str(NO_DEPTH_LIMIT), "-b", input, "-o", "/dev/null"]
 
 def run_pileuphi(input: str, mode: str, threads: int) -> tuple[str, list[str]]:
-    return "pileuphi " + str(threads) + " threads", ["pileuphi", mode, "-d", str(MAX_DEPTH), input, "-t", str(threads)]
+    return "pileuphi " + str(threads) + " threads", ["pileuphi", mode, "-d", str(NO_DEPTH_LIMIT), "-q", "0", "-Q", "13", "--ff", "1796", input, "-t", str(threads)]
 
 def run_mpileup(input: str, _mode: str, _threads: int) -> tuple[str, list[str]]:
-    return "samtools mpileup", ["samtools", "mpileup", "-d", str(MAX_DEPTH), input]
+    return "samtools mpileup", ["samtools", "mpileup", "-d", str(NO_DEPTH_LIMIT), "-q", "0", "-Q", "13", "--ff", "1796", input]
 
+# -F 3844 = exclude UNMAPPED | SECONDARY | QCFAIL | DUPLICATE | SUPPLEMENTARY (matches pileup-hi default)
 def run_perbase(input: str, _mode: str, threads: int) -> tuple[str, list[str]]:
-    return "perbase base-depth " + str(threads) + " threads", ["perbase", "base-depth", input, "--max-depth", str(MAX_DEPTH), "-t", str(threads)]
+    return "perbase base-depth " + str(threads) + " threads", ["perbase", "base-depth", input, "--max-depth", str(NO_DEPTH_LIMIT), "-t", str(threads), "-F", "3844"]
+
+def run_perbase_nofilter(input: str, _mode: str, threads: int) -> tuple[str, list[str]]:
+    return "perbase base-depth " + str(threads) + " threads -F0", ["perbase", "base-depth", input, "--max-depth", str(NO_DEPTH_LIMIT), "-t", str(threads)]
+
+# -c 50000: smaller chunk size, may reduce memory at cost of speed
+def run_perbase_c50000(input: str, _mode: str, threads: int) -> tuple[str, list[str]]:
+    return "perbase base-depth " + str(threads) + " threads -c50000", ["perbase", "base-depth", input, "--max-depth", str(NO_DEPTH_LIMIT), "-t", str(threads), "-c", "50000"]
+
+# -C 1.0: compression ratio, may reduce memory but increases runtime
+def run_perbase_C1(input: str, _mode: str, threads: int) -> tuple[str, list[str]]:
+    return "perbase base-depth " + str(threads) + " threads -C1.0", ["perbase", "base-depth", input, "--max-depth", str(NO_DEPTH_LIMIT), "-t", str(threads), "-C", "1.0"]
+
+def run_sambamba(input: str, _mode: str, threads: int) -> tuple[str, list[str]]:
+    return "sambamba mpileup" + str(threads) + " threads", ["sambamba", "mpileup", "-t", str(threads), input, "--samtools", "-d 0 -q 0 -Q 13 --ff 1796"]
+
+
+#conda create -n bamrc python=3.6 bam-readcount -c bioconda -c conda-forge
+def run_bamreadcount(input: str, _mode: str, _threads: int) -> tuple[str, list[str]]:
+    return "bam_readcount", ["bam-readcount", input, "--max-warnings", "0", "--min-mapping-quality=0", "--min-base-quality=0", f"--max-count={NO_DEPTH_LIMIT}"]
 
 NUM_ITERATIONS = 3
 
@@ -39,31 +62,48 @@ METHODS = [
         # ## Pileup Mode
         (run_mpileup, "plp", 1),
 
-        (run_pileuphi, "plp", 1), 
+        (run_pileuphi, "plp", 1),
         (run_perbase, "plp", 1),
+        (run_perbase_nofilter, "plp", 1),
+        (run_perbase_c50000, "plp", 1),
+        (run_perbase_C1, "plp", 1),
         (run_parampileup, "plp", 1),
 
-        (run_pileuphi, "plp", 4), 
+        (run_pileuphi, "plp", 4),
         (run_perbase, "plp", 4),
+        (run_perbase_nofilter, "plp", 4),
+        (run_perbase_c50000, "plp", 4),
+        (run_perbase_C1, "plp", 4),
         (run_parampileup, "plp", 4),
 
-        (run_pileuphi, "plp", 8), 
+        (run_pileuphi, "plp", 8),
         (run_perbase, "plp", 8),
+        (run_perbase_nofilter, "plp", 8),
+        (run_perbase_c50000, "plp", 8),
+        (run_perbase_C1, "plp", 8),
         (run_parampileup, "plp", 8),
 
-        (run_pileuphi, "plp", 12), 
+        (run_pileuphi, "plp", 12),
         (run_perbase, "plp", 12),
+        (run_perbase_nofilter, "plp", 12),
+        (run_perbase_c50000, "plp", 12),
+        (run_perbase_C1, "plp", 12),
         (run_parampileup, "plp", 12),
 
-        ## Nucleotide frequency mode
+        (run_sambamba, "plp", 1),
+        (run_sambamba, "plp", 4),
+        (run_sambamba, "plp", 8),
+        (run_sambamba, "plp", 12),
 
-        (run_pileuphi, "histo", 1), 
-        (run_pileuphi, "histo", 4), 
-        (run_pileuphi, "histo", 8), 
-        (run_pileuphi, "histo", 12), 
+        (run_bamreadcount, "plp", 1),
+
+        ## Nucleotide frequency mode
+        (run_pileuphi, "histo", 1),
+        (run_pileuphi, "histo", 4),
+        (run_pileuphi, "histo", 8),
+        (run_pileuphi, "histo", 12),
         ]
 
-MAX_TIME = 100800 # 7 days
 
 def update_report(report, columns, dat):
     minireport = dict()
@@ -78,7 +118,6 @@ def get_reads(file):
     mapped_reads = 0
 
     try:
-
         mapped_reads += int(pysam.view("-@ 8", "-F 4", "-c", file))
     except pysam.utils.SamtoolsError:
         mapped_reads = -1
@@ -123,7 +162,6 @@ def monitor_cmd(cmd, maxtime):
             if memory_usage > peak_memory_usage:
                 peak_memory_usage = memory_usage
 
-            # if memory_usage > maxmem:
             runtime = time.time() - start_time
             if runtime > maxtime:
                 proc = psutil.Process(pid)
@@ -140,7 +178,7 @@ def monitor_cmd(cmd, maxtime):
                 end="\r",
             )
 
-            time.sleep(0.1)  # Sleep for a while before checking again
+            time.sleep(0.1)
 
     except MemoryOveruseException as e:
         print(e)
@@ -186,10 +224,10 @@ def main():
 
                reads_mapped = get_reads(file)
 
-               mem, time, status = monitor_cmd(cmd, MAX_TIME)
+               mem, time, status = monitor_cmd(cmd, maxtime=100800)
 
                if status == "Terminated":
-                   break;
+                   break
 
                report = update_report(report, columns, [tool, mode, file, mem, time, status, reads_mapped, iteration])
                report.to_csv("reports/" + date_time + "_bench_report.csv", index = None)

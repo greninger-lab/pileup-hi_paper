@@ -1,0 +1,40 @@
+[workspace]
+name = "mpileup-analysis"
+version = "0.1.0"
+description = "Reproducible analysis environment for pileup-hi benchmarking"
+platforms = ["osx-64", "linux-64"]
+channels = ["conda-forge", "bioconda"]
+
+[tasks]
+setup = { cmd = "cargo install pileup-hi --version 0.9.2", depends-on = ["setup-sambamba"], description = "Install pileup-hi via cargo" }
+setup-sambamba = { cmd = "bash scripts/setup_sambamba.sh", description = "Ensure sambamba works (symlink brew's on macOS if conda binary segfaults)" }
+bench = { cmd = "python bench.py", depends-on = ["setup-sambamba"] }
+compare-output = { cmd = "python compare_output.py", depends-on = ["setup-sambamba"] }
+compare-size = { cmd = "python compare_size.py", depends-on = ["setup-sambamba"] }
+metrics = "bash get_metrics.sh"
+figures = "Rscript -e 'rmarkdown::render(\"bench.Rmd\")'"
+supp-tables = "python make_supp_tables.py"
+snakemake-run = "snakemake --cores all"
+# Test with a single BAM: snakemake --cores all --config bams=SRR19895870.bam
+snakemake-dl = "snakemake --cores all download_all"
+all = { depends-on = ["bench", "compare-output", "compare-size", "metrics"], description = "Run full analysis pipeline" }
+
+[dependencies]
+python = "3.11.*"
+samtools = ">=1.23"
+perbase = "==1.2.0"
+b3sum = ">=1.8"
+parallel = ">=20260122"
+minimap2 = ">=2.30"
+pysam = ">=0.24"
+pandas = ">=1.4"
+psutil = ">=5.8"
+snakemake = ">=9.0"
+openpyxl = ">=3.1.5,<4"
+bam-readcount = ">=1.0"
+sambamba = "==1.0.1"
+curl = ">=8"
+jq = ">=1.6"
+
+[target.osx-64.dependencies]
+pandepth = ">=2.26"
