@@ -6,40 +6,44 @@ For the pileup-hi tool itself (installation, usage, options), see [the main repo
 
 ---
 
-## Quick start
+## Reproducing the analysis
 
 ```bash
-# 1. Set up the pixi environment (installs all dependencies)
+# 1. Install pixi (package manager)
+curl -fsSL https://pixi.sh/install.sh | sh
+
+# 2. Create the environment (installs all dependencies)
 pixi install
 
-# 2. Download BAMs (or verify existing ones)
+# 3. Install pileup-hi and fix macOS sambamba (if applicable)
+pixi run setup
+
+# 4. Download BAMs from Zenodo (~200 GB total)
 pixi run snakemake-dl
 
-# 3. Run the full analysis pipeline
+# 5. Run the full analysis pipeline
 pixi run all
+
+# 6. Generate figures and supplementary tables
+pixi run figures
+pixi run supp-tables
 ```
 
-## Requirements
+Steps 1–6 will produce the benchmark data, output comparisons, figures, and supplementary tables used in the manuscript.
 
-- **pixi** — package manager; install via `curl -fsSL https://pixi.sh/install.sh | sh`
+### Requirements
+
+- **pixi** — package manager (see step 1 above)
 - **1.5+ TB** free disk space for BAMs and outputs
-- **macOS** (tested on Sequoia 15.7.4) or Linux
-- **Homebrew** (macOS only, for sambamba workaround — see below)
+- **macOS** (tested on Sequoia 15.7.4) or **Linux**
 
-## Setup
+### macOS sambamba workaround
 
-### pixi environment
+The conda sambamba binary segfaults on macOS. `pixi run setup` runs `scripts/setup_sambamba.sh`, which detects this and symlinks the Homebrew sambamba (1.0.1) into the pixi environment. If you don't use Homebrew, install sambamba 1.0.1 manually and symlink it to `~/.pixi/envs/default/bin/sambamba`.
 
-All dependencies (samtools, perbase, b3sum, bam-readcount, sambamba, python packages, etc.) are pinned in `pixi.toml` and installed via:
+---
 
-```bash
-pixi install
-pixi run setup
-```
-
-`samtools mpileup` is used as the reference tool. `compare_output.py` and `bench.py` compare pileup-hi output directly against samtools mpileup.
-
-### BAM files
+## BAM files
 
 Five datasets are used in the manuscript:
 
@@ -51,7 +55,7 @@ Five datasets are used in the manuscript:
 | `SRR30646149_hg38.bam` | 36 G | SRA |
 | `DRR793869_hg38.bam` | 103 G | SRA |
 
-BAMs and their indices can be downloaded from Zenodo (see `ZENODO.md` for record URLs) via `snakemake`:
+BAMs and their indices are hosted on Zenodo (see `ZENODO.md` for record URLs) and downloaded automatically by `snakemake`:
 
 ```bash
 pixi run snakemake-dl
@@ -63,25 +67,11 @@ A BLAKE3 checksum manifest is provided in `bam_manifest.b3sum`:
 b3sum -c bam_manifest.b3sum
 ```
 
-### macOS sambamba workaround
+---
 
-The conda sambamba binary segfaults on macOS for us. `setup_sambamba.sh` automatically detects this and symlinks the Homebrew sambamba (1.0.1) into the pixi environment. This is run automatically as a dependency of `bench`, `compare-output`, and `compare-size`.
+## Individual pipeline steps
 
-If you don't use Homebrew, install sambamba 1.0.1 manually and symlink it to `~/.pixi/envs/default/bin/sambamba`.
-
-## Running the analysis
-
-### All at once
-
-```bash
-pixi run all
-```
-
-This runs benchmarking, output comparison, size comparison, and alignment metrics.
-
-### Individual steps
-
-#### bench.py — runtime and peak memory
+### `bench.py` — runtime and peak memory
 
 Records wall-clock time and peak RSS for each tool on each BAM. Results written to `reports/`.
 
@@ -100,7 +90,7 @@ By default, this runs all tools in triplicate:
 
 To change the set of tools, BAMs, or iteration count, edit the `METHODS`, `FILES`, and `NUM_ITERATIONS` variables at the top of `bench.py`.
 
-#### compare_output.py — output hash comparison
+### `compare_output.py` — output hash comparison
 
 Pipes each tool's output through `b3sum` and records the digest. Used to verify deterministic output across thread counts and equivalence to samtools mpileup.
 
@@ -110,7 +100,7 @@ pixi run compare-output
 
 Results are written to `hashes/` as timestamped CSV files.
 
-#### compare_size.py — output size comparison
+### `compare_size.py` — output size comparison
 
 Compares the compressed output size of `plp` vs `histo` mode for pileup-hi.
 
@@ -120,7 +110,7 @@ pixi run compare-size
 
 Results written to `size_comp_*.csv`.
 
-#### Alignment metrics
+### Alignment metrics
 
 ```bash
 pixi run metrics
@@ -128,12 +118,14 @@ pixi run metrics
 
 Runs `get_metrics.sh` to compute depth, coverage, and related metrics.
 
-#### Figures and supplementary tables
+### Figures and supplementary tables
 
 ```bash
 pixi run figures
 pixi run supp-tables
 ```
+
+---
 
 ## Tools compared
 
@@ -160,7 +152,10 @@ All tools are run with equivalent flags where possible:
 
 bam-readcount uses `--min-mapping-quality=0 --min-base-quality=0 --max-count=0`.
 
+---
+
 ## Output files
+
 | File | Description |
 |------|-------------|
 | `reports/bench_*.csv` | Runtime and memory benchmarks |
@@ -169,6 +164,8 @@ bam-readcount uses `--min-mapping-quality=0 --min-base-quality=0 --max-count=0`.
 | `hashes_2026Feb27.csv` | Published output hashes (paper) |
 | `size_comp_2026Mar31.csv` | Published size comparison (paper) |
 | `bench_report_2026Mar30.csv` | Published benchmark data (paper) |
+
+---
 
 ## Scripts
 

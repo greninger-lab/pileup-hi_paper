@@ -8,7 +8,7 @@ get_aln_metrics() {
   out=$2
 
   pandepth -i $bam -t 8 -o ${bam}_pandepth &&
-    zcat ${bam}_pandepth.chr.stat.gz | 
+    gzip -d -c ${bam}_pandepth.chr.stat.gz | 
     sed '1d;$d' | cut -f 1,2,5,6 |
     while read chr len cov depth; do
       printf "%s\t%s\t%s\t%s\t%s\n" $bam $chr $len $cov $depth >> $out

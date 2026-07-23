@@ -46,7 +46,11 @@ with open(MANIFEST) as f:
 
 
 def _b3sum(path):
-    return hashlib.file_digest(open(path, "rb"), "blake2b").hexdigest()
+    result = subprocess.run(
+        ["b3sum", "--no-names", str(path)],
+        capture_output=True, text=True, check=True
+    )
+    return result.stdout.strip()
 
 
 rule all:
@@ -82,7 +86,7 @@ rule download_bams:
                 key = f["key"]
                 if not (key.endswith(".bam") or key.endswith(".bai")):
                     continue
-                dl_url = f["links"]["download"]
+                dl_url = f["links"]["self"]
                 subprocess.run(["curl", "-L", "-o", key, dl_url], check=True)
 
 
@@ -103,7 +107,7 @@ rule download_drr_parts:
             files = json.loads(result.stdout)["files"]
             for f in files:
                 if f["key"] == part_name:
-                    dl_url = f["links"]["download"]
+                    dl_url = f["links"]["self"]
                     subprocess.run(["curl", "-L", "-o", part_name, dl_url], check=True)
                     break
 
@@ -215,8 +219,11 @@ rule figures:
     output:
         touch("figures/_done"),
     run:
+        env = os.environ.copy()
+        env["R_LIBS"] = ".pixi/envs/default/lib/R/library"
         subprocess.run(
-            ["Rscript", "-e", 'rmarkdown::render("bench.Rmd")'], check=True
+            ["Rscript", "-e", 'rmarkdown::render("bench.Rmd")'],
+            check=True, env=env
         )
 
 

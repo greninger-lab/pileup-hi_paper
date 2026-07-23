@@ -6,6 +6,7 @@ import pandas as pd
 import pysam
 from datetime import datetime
 
+TIMEOUT_SECONDS = 86400
 NO_DEPTH_LIMIT = 0
 MAPQ_MIN = 0
 BASEQ_MIN = 0
@@ -216,18 +217,29 @@ def main():
     for col in columns:
         report[col] = ""
 
+    timed_out = set()
+
     for file in FILES:
         for iteration in range(NUM_ITERATIONS):
            for method_func, mode, threads in METHODS:
                tool, cmd = method_func(file, mode, threads)
+
+               combo_key = f"{file}|{tool}|{mode}"
+               if combo_key in timed_out:
+                   print(f"SKIPPING {combo_key} (timed out in a previous iteration)")
+                   continue
+
                print(" ".join(cmd))
 
                reads_mapped = get_reads(file)
 
-               mem, time, status = monitor_cmd(cmd, maxtime=100800)
+               mem, time, status = monitor_cmd(cmd, maxtime=TIMEOUT_SECONDS)
 
                if status == "Terminated":
-                   break
+                   timed_out.add(combo_key)
+                   report = update_report(report, columns, [tool, mode, file, mem, time, status, reads_mapped, iteration])
+                   report.to_csv("reports/" + date_time + "_bench_report.csv", index = None)
+                   continue
 
                report = update_report(report, columns, [tool, mode, file, mem, time, status, reads_mapped, iteration])
                report.to_csv("reports/" + date_time + "_bench_report.csv", index = None)
