@@ -34,6 +34,8 @@ METHODS = [
         ("pileup-hi", run_pileuphi, "plp", 8),
         ("pileup-hi", run_pileuphi, "plp", 12),
 
+        ("samtools mpileup", run_mpileup, "plp", 1),
+
         ("sambamba", run_sambamba, "plp", 1),
         ("sambamba", run_sambamba, "plp", 4),
         ("sambamba", run_sambamba, "plp", 8),

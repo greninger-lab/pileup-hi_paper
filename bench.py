@@ -6,8 +6,11 @@ import pandas as pd
 import pysam
 from datetime import datetime
 
-TIMEOUT_SECONDS = 86400
+TIMEOUT_SECONDS = 28800
 NO_DEPTH_LIMIT = 0
+
+# some tools don't interpret depth = 0 as no limit
+NO_DEPTH_LIMIT_NONZERO= 100_000_000
 MAPQ_MIN = 0
 BASEQ_MIN = 0
 
@@ -24,28 +27,17 @@ def run_pileuphi(input: str, mode: str, threads: int) -> tuple[str, list[str]]:
 def run_mpileup(input: str, _mode: str, _threads: int) -> tuple[str, list[str]]:
     return "samtools mpileup", ["samtools", "mpileup", "-d", str(NO_DEPTH_LIMIT), "-q", "0", "-Q", "13", "--ff", "1796", input]
 
-# -F 3844 = exclude UNMAPPED | SECONDARY | QCFAIL | DUPLICATE | SUPPLEMENTARY (matches pileup-hi default)
 def run_perbase(input: str, _mode: str, threads: int) -> tuple[str, list[str]]:
-    return "perbase base-depth " + str(threads) + " threads", ["perbase", "base-depth", input, "--max-depth", str(NO_DEPTH_LIMIT), "-t", str(threads), "-F", "3844"]
+    return "perbase base-depth " + str(threads) + " threads", ["perbase", "base-depth", input, "--max-depth", str(NO_DEPTH_LIMIT_NONZERO), "-t", str(threads), "-F", "1796"]
 
-def run_perbase_nofilter(input: str, _mode: str, threads: int) -> tuple[str, list[str]]:
-    return "perbase base-depth " + str(threads) + " threads -F0", ["perbase", "base-depth", input, "--max-depth", str(NO_DEPTH_LIMIT), "-t", str(threads)]
-
-# -c 50000: smaller chunk size, may reduce memory at cost of speed
 def run_perbase_c50000(input: str, _mode: str, threads: int) -> tuple[str, list[str]]:
-    return "perbase base-depth " + str(threads) + " threads -c50000", ["perbase", "base-depth", input, "--max-depth", str(NO_DEPTH_LIMIT), "-t", str(threads), "-c", "50000"]
-
-# -C 1.0: compression ratio, may reduce memory but increases runtime
-def run_perbase_C1(input: str, _mode: str, threads: int) -> tuple[str, list[str]]:
-    return "perbase base-depth " + str(threads) + " threads -C1.0", ["perbase", "base-depth", input, "--max-depth", str(NO_DEPTH_LIMIT), "-t", str(threads), "-C", "1.0"]
+    return "perbase base-depth " + str(threads) + " threads -c50000", ["perbase", "base-depth", input, "--max-depth", str(NO_DEPTH_LIMIT_NONZERO), "-t", str(threads), "-c", "50000", "-F", "1796"]
 
 def run_sambamba(input: str, _mode: str, threads: int) -> tuple[str, list[str]]:
-    return "sambamba mpileup" + str(threads) + " threads", ["sambamba", "mpileup", "-t", str(threads), input, "--samtools", "-d 0 -q 0 -Q 13 --ff 1796"]
+    return "sambamba mpileup " + str(threads) + " threads", ["sambamba", "mpileup", "-t", str(threads), input, "--samtools", "-d 0 -q 0 -Q 13 --ff 1796"]
 
-
-#conda create -n bamrc python=3.6 bam-readcount -c bioconda -c conda-forge
 def run_bamreadcount(input: str, _mode: str, _threads: int) -> tuple[str, list[str]]:
-    return "bam_readcount", ["bam-readcount", input, "--max-warnings", "0", "--min-mapping-quality=0", "--min-base-quality=0", f"--max-count={NO_DEPTH_LIMIT}"]
+    return "bam_readcount", ["bam-readcount", input, "--max-warnings", "0", "--min-mapping-quality=0", "--min-base-quality=0", f"--max-count={NO_DEPTH_LIMIT_NONZERO}"]
 
 NUM_ITERATIONS = 3
 
@@ -60,35 +52,27 @@ FILES = [
 ## tuple of command, output mode, threadcount (where applicable)
 METHODS = [
 
-        # ## Pileup Mode
+        ## Pileup Mode
         (run_mpileup, "plp", 1),
 
         (run_pileuphi, "plp", 1),
         (run_perbase, "plp", 1),
-        (run_perbase_nofilter, "plp", 1),
         (run_perbase_c50000, "plp", 1),
-        (run_perbase_C1, "plp", 1),
         (run_parampileup, "plp", 1),
 
         (run_pileuphi, "plp", 4),
         (run_perbase, "plp", 4),
-        (run_perbase_nofilter, "plp", 4),
         (run_perbase_c50000, "plp", 4),
-        (run_perbase_C1, "plp", 4),
         (run_parampileup, "plp", 4),
 
         (run_pileuphi, "plp", 8),
         (run_perbase, "plp", 8),
-        (run_perbase_nofilter, "plp", 8),
         (run_perbase_c50000, "plp", 8),
-        (run_perbase_C1, "plp", 8),
         (run_parampileup, "plp", 8),
 
         (run_pileuphi, "plp", 12),
         (run_perbase, "plp", 12),
-        (run_perbase_nofilter, "plp", 12),
         (run_perbase_c50000, "plp", 12),
-        (run_perbase_C1, "plp", 12),
         (run_parampileup, "plp", 12),
 
         (run_sambamba, "plp", 1),
@@ -175,7 +159,7 @@ def monitor_cmd(cmd, maxtime):
                 )
 
             print(
-                f"\033[31mCurrent Peak Memory Usage: {peak_memory_usage:.2f} GB\033[0m",
+                    f"\033[31mCurrent Peak Memory Usage: {peak_memory_usage:.2f} GB | runtime: {runtime:.2f} seconds \033[0m",
                 end="\r",
             )
 
@@ -219,7 +203,11 @@ def main():
 
     timed_out = set()
 
+    if not os.path.exists("reports/"):
+        os.mkdir("reports")
+
     for file in FILES:
+        reads_mapped = get_reads(file)
         for iteration in range(NUM_ITERATIONS):
            for method_func, mode, threads in METHODS:
                tool, cmd = method_func(file, mode, threads)
@@ -231,7 +219,6 @@ def main():
 
                print(" ".join(cmd))
 
-               reads_mapped = get_reads(file)
 
                mem, time, status = monitor_cmd(cmd, maxtime=TIMEOUT_SECONDS)
 

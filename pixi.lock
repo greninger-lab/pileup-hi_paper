@@ -19,13 +19,11 @@ environments:
     packages:
       linux-64:
       - conda: https://conda.anaconda.org/bioconda/linux-64/bam-readcount-1.0.1-h43eeafb_2.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/linux-64/htslib-1.24-ha79157c_0.conda
-      - conda: https://conda.anaconda.org/bioconda/linux-64/k8-1.2-he8db53b_6.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/linux-64/minimap2-2.31-h118bc1c_0.conda
+      - conda: https://conda.anaconda.org/bioconda/linux-64/htslib-1.23.1-h633afcb_0.conda
       - conda: https://conda.anaconda.org/bioconda/linux-64/perbase-1.2.0-h15397dd_0.conda
       - conda: https://conda.anaconda.org/bioconda/linux-64/pysam-0.24.0-py311h5f69268_1.conda
       - conda: https://conda.anaconda.org/bioconda/linux-64/sambamba-1.0.1-he614052_4.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/linux-64/samtools-1.24-h9dcdb79_1.conda
+      - conda: https://conda.anaconda.org/bioconda/linux-64/samtools-1.23-h96c455f_0.conda
       - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-9.23.1-hdfd78af_2.conda
       - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-common-1.23.0-pyhdfd78af_1.conda
       - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-interface-executor-plugins-9.4.0-pyh84498cf_0.conda
@@ -347,13 +345,11 @@ environments:
       - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-minimal-9.23.1-pyhdfd78af_1.conda
       - conda: https://conda.anaconda.org/bioconda/osx-64/bam-readcount-1.0.1-hd576cc4_2.tar.bz2
       - conda: https://conda.anaconda.org/bioconda/osx-64/htslib-1.23.1-h09fbe89_0.conda
-      - conda: https://conda.anaconda.org/bioconda/osx-64/k8-1.2-h2ec61ea_6.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/osx-64/minimap2-2.31-h17d07ba_0.conda
       - conda: https://conda.anaconda.org/bioconda/osx-64/pandepth-2.26-h5b06422_0.conda
       - conda: https://conda.anaconda.org/bioconda/osx-64/perbase-1.2.0-h89c4a0b_0.conda
       - conda: https://conda.anaconda.org/bioconda/osx-64/pysam-0.24.0-py311h8fa6197_1.conda
       - conda: https://conda.anaconda.org/bioconda/osx-64/sambamba-1.0.1-h976bfc5_4.tar.bz2
-      - conda: https://conda.anaconda.org/bioconda/osx-64/samtools-1.23.1-head6495_0.conda
+      - conda: https://conda.anaconda.org/bioconda/osx-64/samtools-1.23-ha21ef43_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/_r-mutex-1.0.1-anacondar_1.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/amply-0.1.7-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/annotated-doc-0.0.4-pyhcf101f3_0.conda
@@ -676,56 +672,24 @@ packages:
     - bam-readcount >=1.0.1,<2.0a0
   size: 1070757
   timestamp: 1722838535237
-- conda: https://conda.anaconda.org/bioconda/linux-64/htslib-1.24-ha79157c_0.conda
-  sha256: 97e0f0b8700f56b1ade3034f81070ede705fce3ef9a1b5f15e79e3eb9997ac17
-  md5: 232775112c6fea38e9e7c25d2a58d7d2
+- conda: https://conda.anaconda.org/bioconda/linux-64/htslib-1.23.1-h633afcb_0.conda
+  sha256: d0977efb1885c9f00ca76ee13e7c0f9a8936bf271eec25ffa78606cd816a13c9
+  md5: 209caa9e4ff0b9ed02dd09c3161917e5
   depends:
-  - __glibc >=2.17,<3.0.a0
   - bzip2 >=1.0.8,<2.0a0
-  - libcurl >=8.21.0,<9.0a0
+  - libcurl >=8.19.0,<9.0a0
   - libdeflate >=1.25,<1.26.0a0
   - libgcc >=14
-  - liblzma >=5.8.3,<6.0a0
-  - libzlib >=1.3.2,<2.0a0
-  - openssl >=3.5.7,<4.0a0
-  license: MIT
-  license_family: MIT
-  run_exports:
-    weak:
-    - htslib >=1.24,<1.25.0a0
-  size: 1166222
-  timestamp: 1783611817902
-- conda: https://conda.anaconda.org/bioconda/linux-64/k8-1.2-he8db53b_6.tar.bz2
-  sha256: 35143205ef4684f417f047c649aea110e0ceb1d6891001511dbceb2dea08be3d
-  md5: 6c44663f234185cc54d7a90c4d7a555a
-  depends:
-  - __glibc >=2.17,<3.0.a0
-  - libgcc >=13
-  - libstdcxx >=13
+  - liblzma >=5.8.2,<6.0a0
   - libzlib >=1.3.1,<2.0a0
-  - sysroot_linux-64 >=2.17
+  - openssl >=3.5.5,<4.0a0
   license: MIT
   license_family: MIT
   run_exports:
     weak:
-    - k8 >=1.2,<2.0a0
-  size: 7535090
-  timestamp: 1748942479223
-- conda: https://conda.anaconda.org/bioconda/linux-64/minimap2-2.31-h118bc1c_0.conda
-  sha256: 344fe7b5328ff635dc2b8914b05e003053e136446e456b81e1b4b5fca1a9cedd
-  md5: 9134876c84df5b48841bfe743cfd7b67
-  depends:
-  - __glibc >=2.17,<3.0.a0
-  - k8
-  - libgcc >=14
-  - libzlib >=1.3.2,<2.0a0
-  license: MIT
-  license_family: MIT
-  run_exports:
-    weak:
-    - minimap2 >=2.31,<3.0a0
-  size: 1041274
-  timestamp: 1779234363154
+    - htslib >=1.23.1,<1.24.0a0
+  size: 1195461
+  timestamp: 1773854995668
 - conda: https://conda.anaconda.org/bioconda/linux-64/perbase-1.2.0-h15397dd_0.conda
   sha256: 03212b0df44e5570597f49ee611de45dab47917819c9c33b8bb7780b4539a97d
   md5: fa15f008303a350192348532f4a91ae4
@@ -781,21 +745,20 @@ packages:
     - sambamba >=1.0.1,<2.0a0
   size: 4063197
   timestamp: 1740593376356
-- conda: https://conda.anaconda.org/bioconda/linux-64/samtools-1.24-h9dcdb79_1.conda
-  sha256: 18fd604932d0fc197dcfdd54d67e7c54770a2d8eca819e03074556ed9cd3422e
-  md5: 9cbf5a1cbce4f7d997a4e3e2a27343f1
+- conda: https://conda.anaconda.org/bioconda/linux-64/samtools-1.23-h96c455f_0.conda
+  sha256: baf3fcf005aac25034ec33debc40946b618b72c9e1da5287b1d468317c0da570
+  md5: f5426f4f0024640896a5582a5e75f285
   depends:
-  - __glibc >=2.17,<3.0.a0
-  - htslib >=1.24,<1.25.0a0
-  - libgcc >=14
-  - libzlib >=1.3.2,<2.0a0
-  - ncurses >=6.6,<7.0a0
+  - htslib >=1.23,<1.24.0a0
+  - libgcc >=13
+  - libzlib >=1.3.1,<2.0a0
+  - ncurses >=6.5,<7.0a0
   license: MIT
   run_exports:
     weak:
-    - samtools >=1.24,<2.0a0
-  size: 504278
-  timestamp: 1784062341168
+    - samtools >=1.23,<2.0a0
+  size: 488688
+  timestamp: 1765917481431
 - conda: https://conda.anaconda.org/bioconda/noarch/snakemake-9.23.1-hdfd78af_1.conda
   sha256: 9dbbb17d231f341e45560a12fe0a52d75c86f71f4d4d6adb7ca97a9b8115edcc
   md5: 1f680b0e0c887ddc54ead077e51512d2
@@ -1029,33 +992,6 @@ packages:
     - htslib >=1.23.1,<1.24.0a0
   size: 998076
   timestamp: 1773856529790
-- conda: https://conda.anaconda.org/bioconda/osx-64/k8-1.2-h2ec61ea_6.tar.bz2
-  sha256: 596c13ecad0e679a907c229b9fcd07f649235ad25abbf783e8910a449ec60f2d
-  md5: 917525300d56b7a7ddac9e1bde2dd4ba
-  depends:
-  - libcxx >=18
-  - libzlib >=1.3.1,<2.0a0
-  license: MIT
-  license_family: MIT
-  run_exports:
-    weak:
-    - k8 >=1.2,<2.0a0
-  size: 8484801
-  timestamp: 1748948933576
-- conda: https://conda.anaconda.org/bioconda/osx-64/minimap2-2.31-h17d07ba_0.conda
-  sha256: 5d83468c18cd86d93d8e6a53260cf80b3967f6612a78e666f4ad54fa4b8869f1
-  md5: 8124b4f6a5975ee327de82ddd9045f00
-  depends:
-  - __osx >=10.13
-  - k8
-  - libzlib >=1.3.2,<2.0a0
-  license: MIT
-  license_family: MIT
-  run_exports:
-    weak:
-    - minimap2 >=2.31,<3.0a0
-  size: 439746
-  timestamp: 1779235386770
 - conda: https://conda.anaconda.org/bioconda/osx-64/pandepth-2.26-h5b06422_0.conda
   sha256: 8570606a2df117ddf8a51856a8c80133ee14dd111109df699927a0c111a3595d
   md5: b5ca0d21bc3bfc8d223db302e0cbb4b3
@@ -1123,19 +1059,19 @@ packages:
     - sambamba >=1.0.1,<2.0a0
   size: 1401211
   timestamp: 1740594172973
-- conda: https://conda.anaconda.org/bioconda/osx-64/samtools-1.23.1-head6495_0.conda
-  sha256: 8c3ff4c331f82049446521fd9f00d8a6010ba65f69c38250860ac320d4fdbe55
-  md5: b4af8fd57180f7d7c20048f0c3359736
+- conda: https://conda.anaconda.org/bioconda/osx-64/samtools-1.23-ha21ef43_0.conda
+  sha256: a0c80bc0dba393ae5da1f85d767012836579abbb9553ebbcbf7089db39b9f2b2
+  md5: 0da4b924b988ffad44f5d8f56c0b2380
   depends:
-  - htslib >=1.23.1,<1.24.0a0
+  - htslib >=1.23,<1.24.0a0
   - libzlib >=1.3.1,<2.0a0
   - ncurses >=6.5,<7.0a0
   license: MIT
   run_exports:
     weak:
-    - samtools >=1.23.1,<2.0a0
-  size: 477620
-  timestamp: 1773863301094
+    - samtools >=1.23,<2.0a0
+  size: 475583
+  timestamp: 1765918544006
 - conda: https://conda.anaconda.org/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
   build_number: 20
   sha256: 1dd3fffd892081df9726d7eb7e0dea6198962ba775bd88842135a4ddb4deb3c9

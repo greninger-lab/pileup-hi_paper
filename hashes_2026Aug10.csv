@@ -1,0 +1,42 @@
+﻿Tool,File,Threads,Hash,Command
+pileuphi 1 threads,DRR793869_hg38.bam,1,a3ede4677699330820e08f9b0ee8daad780482144a5757e308b625333a0b35d4,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 DRR793869_hg38.bam -t 1
+pileuphi 4 threads,DRR793869_hg38.bam,4,a3ede4677699330820e08f9b0ee8daad780482144a5757e308b625333a0b35d4,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 DRR793869_hg38.bam -t 4
+pileuphi 8 threads,DRR793869_hg38.bam,8,a3ede4677699330820e08f9b0ee8daad780482144a5757e308b625333a0b35d4,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 DRR793869_hg38.bam -t 8
+pileuphi 12 threads,DRR793869_hg38.bam,12,a3ede4677699330820e08f9b0ee8daad780482144a5757e308b625333a0b35d4,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 DRR793869_hg38.bam -t 12
+sambamba 1 threads,DRR793869_hg38.bam,1,f77883ea6e591f993dc579637df56e08f5be9546b00121c9f64f8631fc05a8fe,sambamba mpileup -t 1 DRR793869_hg38.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 4 threads,DRR793869_hg38.bam,4,f77883ea6e591f993dc579637df56e08f5be9546b00121c9f64f8631fc05a8fe,sambamba mpileup -t 4 DRR793869_hg38.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 8 threads,DRR793869_hg38.bam,8,f77883ea6e591f993dc579637df56e08f5be9546b00121c9f64f8631fc05a8fe,sambamba mpileup -t 8 DRR793869_hg38.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 12 threads,DRR793869_hg38.bam,12,f77883ea6e591f993dc579637df56e08f5be9546b00121c9f64f8631fc05a8fe,sambamba mpileup -t 12 DRR793869_hg38.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+samtools mpileup 1 threads,DRR793869_hg38.bam,1,a3ede4677699330820e08f9b0ee8daad780482144a5757e308b625333a0b35d4,samtools mpileup-d 0 -q 0 -Q 13 --ff 1796 DRR793869_hg38.bam
+pileuphi 1 threads,ERR2756169_merged.bam,1,400d0e12d9665a9c35ddab0f18c9b7095d805e24efca48014380b88cc84a8293,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 ERR2756169_merged.bam -t 1
+pileuphi 4 threads,ERR2756169_merged.bam,4,400d0e12d9665a9c35ddab0f18c9b7095d805e24efca48014380b88cc84a8293,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 ERR2756169_merged.bam -t 4
+pileuphi 8 threads,ERR2756169_merged.bam,8,400d0e12d9665a9c35ddab0f18c9b7095d805e24efca48014380b88cc84a8293,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 ERR2756169_merged.bam -t 8
+pileuphi 12 threads,ERR2756169_merged.bam,12,400d0e12d9665a9c35ddab0f18c9b7095d805e24efca48014380b88cc84a8293,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 ERR2756169_merged.bam -t 12
+sambamba 1 threads,ERR2756169_merged.bam,1,400d0e12d9665a9c35ddab0f18c9b7095d805e24efca48014380b88cc84a8293  ,sambamba mpileup -t 1 ERR2756169_merged.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 4 threads,ERR2756169_merged.bam,4,400d0e12d9665a9c35ddab0f18c9b7095d805e24efca48014380b88cc84a8293  ,sambamba mpileup -t 4 ERR2756169_merged.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 8 threads,ERR2756169_merged.bam,8,400d0e12d9665a9c35ddab0f18c9b7095d805e24efca48014380b88cc84a8293  ,sambamba mpileup -t 8 ERR2756169_merged.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 12 threads,ERR2756169_merged.bam,12,400d0e12d9665a9c35ddab0f18c9b7095d805e24efca48014380b88cc84a8293  ,sambamba mpileup -t 12 ERR2756169_merged.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+samtools mpileup 1 threads,ERR2756169_merged.bam,1,400d0e12d9665a9c35ddab0f18c9b7095d805e24efca48014380b88cc84a8293,samtools mpileup-d 0 -q 0 -Q 13 --ff 1796 ERR2756169_merged.bam
+pileuphi 1 threads,SRR19895870.bam,1,5b5b34b6b59315968b71724f1148081e815898c04a4a2dd3f05374e9ac031e4c,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR19895870.bam -t 1
+pileuphi 4 threads,SRR19895870.bam,4,5b5b34b6b59315968b71724f1148081e815898c04a4a2dd3f05374e9ac031e4c,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR19895870.bam -t 4
+pileuphi 8 threads,SRR19895870.bam,8,5b5b34b6b59315968b71724f1148081e815898c04a4a2dd3f05374e9ac031e4c,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR19895870.bam -t 8
+pileuphi 12 threads,SRR19895870.bam,12,5b5b34b6b59315968b71724f1148081e815898c04a4a2dd3f05374e9ac031e4c,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR19895870.bam -t 12
+sambamba 1 threads,SRR19895870.bam,1,5b5b34b6b59315968b71724f1148081e815898c04a4a2dd3f05374e9ac031e4c  ,sambamba mpileup -t 1 SRR19895870.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 4 threads,SRR19895870.bam,4,5b5b34b6b59315968b71724f1148081e815898c04a4a2dd3f05374e9ac031e4c  ,sambamba mpileup -t 4 SRR19895870.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 8 threads,SRR19895870.bam,8,5b5b34b6b59315968b71724f1148081e815898c04a4a2dd3f05374e9ac031e4c  ,sambamba mpileup -t 8 SRR19895870.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 12 threads,SRR19895870.bam,12,5b5b34b6b59315968b71724f1148081e815898c04a4a2dd3f05374e9ac031e4c  ,sambamba mpileup -t 12 SRR19895870.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+samtools mpileup 1 threads,SRR19895870.bam,1,5b5b34b6b59315968b71724f1148081e815898c04a4a2dd3f05374e9ac031e4c,samtools mpileup-d 0 -q 0 -Q 13 --ff 1796 SRR19895870.bam
+pileuphi 1 threads,SRR30646149_hg38.bam,1,69e89dec99951b0ea501a414b79f1df61bd6add0cc0a9c1c79a4af15f8d57e42,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR30646149_hg38.bam -t 1
+pileuphi 4 threads,SRR30646149_hg38.bam,4,69e89dec99951b0ea501a414b79f1df61bd6add0cc0a9c1c79a4af15f8d57e42,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR30646149_hg38.bam -t 4
+pileuphi 8 threads,SRR30646149_hg38.bam,8,69e89dec99951b0ea501a414b79f1df61bd6add0cc0a9c1c79a4af15f8d57e42,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR30646149_hg38.bam -t 8
+pileuphi 12 threads,SRR30646149_hg38.bam,12,69e89dec99951b0ea501a414b79f1df61bd6add0cc0a9c1c79a4af15f8d57e42,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR30646149_hg38.bam -t 12
+samtools mpileup 1 threads,SRR30646149_hg38.bam,1,69e89dec99951b0ea501a414b79f1df61bd6add0cc0a9c1c79a4af15f8d57e42,samtools mpileup-d 0 -q 0 -Q 13 --ff 1796 SRR30646149_hg38.bam
+pileuphi 1 threads,SRR36374445_hg38.bam,1,2860975a968c4aeef22e2fdc2c64843bf6f7e059fa3387496de8ca1853c10c5d,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR36374445_hg38.bam -t 1
+pileuphi 4 threads,SRR36374445_hg38.bam,4,2860975a968c4aeef22e2fdc2c64843bf6f7e059fa3387496de8ca1853c10c5d,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR36374445_hg38.bam -t 4
+pileuphi 8 threads,SRR36374445_hg38.bam,8,2860975a968c4aeef22e2fdc2c64843bf6f7e059fa3387496de8ca1853c10c5d,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR36374445_hg38.bam -t 8
+pileuphi 12 threads,SRR36374445_hg38.bam,12,2860975a968c4aeef22e2fdc2c64843bf6f7e059fa3387496de8ca1853c10c5d,pileuphi plp -d 0 -q 0 -Q 13 --ff 1796 SRR36374445_hg38.bam -t 12
+sambamba 1 threads,SRR36374445_hg38.bam,1,fd75231359d7a706fb0d3d525a0d9498721f127f5f56e11e32d2b28bd51d9625  ,sambamba mpileup -t 1 SRR36374445_hg38.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 4 threads,SRR36374445_hg38.bam,4,c2139b5bbeff457f06610502866f9fab05c762e2acff7849046d2e8f1692ce5b  ,sambamba mpileup -t 4 SRR36374445_hg38.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 8 threads,SRR36374445_hg38.bam,8,b1358304ca5f33a6c38fde85be982821095d4e8ef471b802bbc1842c13a9b33a,sambamba mpileup -t 8 SRR36374445_hg38.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+sambamba 12 threads,SRR36374445_hg38.bam,12,cd1e4e7e1cc0246b2e422f127ba182517ca9f061bc9b11d7cbe242c060adc998,sambamba mpileup -t 12 SRR36374445_hg38.bam --samtools -d 0 -q 0 -Q 13 --ff 1796
+samtools mpileup 1 threads,SRR36374445_hg38.bam,1,2860975a968c4aeef22e2fdc2c64843bf6f7e059fa3387496de8ca1853c10c5d,samtools mpileup-d 0 -q 0 -Q 13 --ff 1796 SRR36374445_hg38.bam

@@ -11,7 +11,8 @@ library(scales)
 ```
 
 ```{r}
-rawdf = read.csv("bench_report_2026Mar30.csv") %>%
+rawdf = read.csv("bench_report_2026Aug10.csv") %>%
+  filter(!str_detect(Tool, "-c50000")) %>%
   mutate(
     threads = if_else(
       str_detect(Tool, "thread"), gsub(".* ([0-9]{1,2}) thread.*", "\\1", Tool), "1"),
@@ -47,7 +48,7 @@ rawdf = read.csv("bench_report_2026Mar30.csv") %>%
 
 rawdf <- rawdf %>%
   mutate(
-    Tool = factor(Tool, levels = c("samtools mpileup", "parallel samtools mpileup", "perbase base-depth", "pileup-hi", "pileup-hi histo")),
+    Tool = factor(Tool, levels = c("samtools mpileup", "parallel samtools mpileup", "sambamba mpileup", "bam_readcount", "perbase base-depth", "pileup-hi", "pileup-hi histo")),
     Sample = factor(Sample, levels = c("Human WGS - NovaSeq X Plus",  "Human WGS - Ultima", "Human WGS - Revio", "Rocoto pepper - NovaSeq 6000", "T. pallidum WGS - HiSeq 2500")),
     threads = factor(threads, levels = c("1", "4", "8", "12")),
   ) %>%
@@ -56,6 +57,7 @@ rawdf <- rawdf %>%
   arrange(Tool, threads)
 # 
 rawdf_sum <- rawdf %>%
+  filter(Status != "Terminated") %>%
   group_by(File, Sample, Tool, threads) %>%
   summarize(
     mean_runtime = mean(Runtime), median_runtime = median(Runtime), sd_runtime = sd(Runtime),
@@ -78,7 +80,9 @@ FILL_SCALE = scale_fill_manual(values = c(
   # "pileup-hi plp" = "indianred4",
   "pileup-hi" = "indianred4",
   "pileup-hi histo" = "indianred2",
-  "parallel samtools mpileup" = "goldenrod4"
+  "parallel samtools mpileup" = "goldenrod4",
+  "sambamba mpileup" = "#458B74",
+  "bam_readcount" = "#00688B"
   ))
 
 COLOR_SCALE = scale_color_manual(values = c(
@@ -87,58 +91,75 @@ COLOR_SCALE = scale_color_manual(values = c(
   "perbase base-depth" = "plum4",
   "pileup-hi" = "indianred4",
   "pileup-hi histo" = "indianred2",
-  "parallel samtools mpileup" = "goldenrod4"
+  "parallel samtools mpileup" = "goldenrod4",
+  "sambamba mpileup" = "#458B74",
+  "bam_readcount" = "#00688B"
+  
   ))
 
 AXIS_TEXT_COLOR = adjustcolor("black", alpha.f = 0.82)
 ```
 
 ```{r}
+label_df <- rawdf_sum %>%
+  distinct(Sample, File) %>%
+  left_join(metrics, by = "File") %>%
+  mutate(
+    depth_label = paste0("mean depth: ", round(MeanDepth, 1)),
+    cov_label   = paste0("mean coverage: ", round(Coverage, 1), "%")
+  )
+
 runtime = rawdf_sum %>%
   ggplot(aes(x = threads, y = mean_runtime, fill = Tool)) +
   facet_grid(~Sample, scales = "free", space = "free_x") + 
   geom_col(position = position_dodge(preserve = "single"), color = "black") +
-  geom_errorbar(aes(x = threads, ymin = mean_runtime - sd_runtime, ymax = mean_runtime + sd_runtime), position = position_dodge(preserve = "single")) +
+  geom_errorbar(aes(x = threads, ymin = mean_runtime - sd_runtime, ymax = mean_runtime + sd_runtime),
+                position = position_dodge(preserve = "single")) +
   scale_y_continuous(expand = c(0, 0), limits = c(0, 20000)) +
   FILL_SCALE +
   theme_classic() +
   xlab("Threads") +
   ylab("Runtime (seconds)") +
   geom_text(
-    label = paste0("mean depth: ", round(metrics$MeanDepth[metrics$File == rawdf_sum$File], 1)), 
-    y = 19100, 
-    x = 0.55, 
-    check_overlap = TRUE, 
-    hjust = 0, 
+    data = label_df,
+    aes(label = depth_label),
+    y = 19300,
+    # x = 0.55,
+    x = 2.5,
+    inherit.aes = FALSE,
+    check_overlap = TRUE,
+    halign = 0.5,
+    hjust = 0.5,
     size = 6 * 5/14
-    ) +
+  ) +
   geom_text(
-    label = paste0("mean coverage: ", round(metrics$Coverage[metrics$File == rawdf_sum$File], 1), "%"), 
-    y = 18300, 
-    x = 0.55, 
-    check_overlap = TRUE, 
-    hjust = 0, 
+    data = label_df,
+    aes(label = cov_label),
+    y = 18500,
+    # x = 0.55,
+    x = 2.5,
+    inherit.aes = FALSE,
+    check_overlap = TRUE,
+    halign = 0.5,
+    hjust = 0.5,
     size = 6 * 5/14
-    ) +
+  ) +
   guides(fill = guide_legend(label.position = "left")) +
   theme(
-    legend.position = c(0.90,0.57),
-      legend.title = element_blank(),
-      legend.text = element_text(size = 8),
-      # legend.key.justification = "right",
-      text = element_text(size = 8),
-      panel.background = element_blank(),
-      plot.background = element_blank(),
-      legend.key.size = unit(0.45, "cm"),
-      axis.title.x = element_text(size = 10),
-      axis.title.y = element_text(size = 10),
-    
-      axis.text.x = element_text(size = 8, color = AXIS_TEXT_COLOR),
-      axis.text.y = element_text(size = 8,color = AXIS_TEXT_COLOR)
-    )
-
+    legend.position = c(0.90, 0.57),
+    legend.title = element_blank(),
+    legend.text = element_text(size = 8),
+    text = element_text(size = 8),
+    panel.background = element_blank(),
+    plot.background = element_blank(),
+    legend.key.size = unit(0.45, "cm"),
+    axis.title.x = element_text(size = 10),
+    axis.title.y = element_text(size = 10),
+    axis.text.x = element_text(size = 8, color = AXIS_TEXT_COLOR),
+    axis.text.y = element_text(size = 8, color = AXIS_TEXT_COLOR)
+  )
 runtime
-ggsave("runtime.pdf", runtime, width = 8, height = 5, dpi = 600)
+# ggsave("runtime.pdf", runtime, width = 8, height = 5, dpi = 600)
 ```
 
 ```{r}
@@ -210,7 +231,8 @@ sizedf$Mode = factor(sizedf$Mode, levels = c("pileup", "histo"))
 
 size = sizedf %>%
   mutate(Sample = str_replace(Sample, " - ", "\n"),
-         Sample = str_replace(Sample, " ", "\n")
+         Sample = str_replace(Sample, " ", "\n"),
+         Mode = str_replace(Mode, "histo", "histo\n(abbreviated)")
          ) %>%
   mutate(
     Sample = factor(Sample, levels = c("Human\nWGS\nNovaSeq X Plus",  "Human\nWGS\nUltima", "Human\nWGS\nRevio", "Rocoto\npepper\nNovaSeq 6000", "T.\npallidum WGS\nHiSeq 2500")),
@@ -219,7 +241,7 @@ size = sizedf %>%
   facet_grid(~Sample) +
   geom_line(aes(x = Mode, y = perc, group = 1), linetype = "dashed", color = "grey") +
   geom_point(aes(x = Mode, y = perc, color = Mode), size = 2.3, alpha = 0.8) + 
-  scale_color_manual(values = c("pileup" = "indianred4", "histo" = "indianred2")) +
+  scale_color_manual(values = c("pileup" = "indianred4", "histo\n(abbreviated)" = "indianred2")) +
   geom_text_repel(aes(x = Mode, y = perc, label = paste0(signif(Size, 3), " GB")), min.segment.length = 1000, size = 7 * 5/14, seed = 1) +
   scale_y_continuous(limits = c(0, 100)) +
   theme_classic() +
@@ -241,20 +263,22 @@ size
 ggsave("size.pdf", size, width = 8, height = 2, dpi = 1000)
 ```
 # put it all together
-```{r fig.height = 6.0, width = 8, dpi = 800}
-runtime_mem = ((runtime  + theme(axis.text.x = element_blank(), axis.title.x = element_blank())) / plot_spacer() / memory / plot_spacer() / size) + plot_layout(axes = "collect", axis_titles = "collect", heights = c(0.42, -0.05, 0.36, 0.01, 0.22))
-runtime_mem
+```{r fig.height = 6.2, width = 8.2, dpi = 800}
+runtime_mem = ((runtime  + theme(axis.text.x = element_blank(), axis.title.x = element_blank())) / plot_spacer() / memory / plot_spacer() / size) + plot_layout(axes = "collect", axis_titles = "collect", heights = c(0.46, -0.05, 0.36, 0.01, 0.18))
 
-ggsave("figures/figure1C_2026Apr08.pdf", runtime_mem, dpi = 1000, width = 8.2, height = 6.0)
+runtime_mem[[1]] <- runtime_mem[[1]] + theme(plot.margin = margin(t = 0, r = 5.5, b = 5.5, l = 5.5))  # kill top padding
+runtime_mem[[5]] <- runtime_mem[[5]] + theme(plot.margin = margin(t = 5.5, r = 5.5, b = 0, l = 5.5))  # kill bottom padding
+
+runtime_mem
+ggsave("figures/figure1C_2026Apr08.pdf", runtime_mem, dpi = 1000, width = 8.2, height = 6.2)
 ```
 
 # plot hashes of plp output with a correlation plot
 ```{r}
 
-# hashdf = read.csv("hashes_2026Feb04.csv") %>%
-hashdf = read.csv("hashes_2026Feb27.csv") %>%
-  # filter(!File %in% c("ERR2756166.bam", "SRR30646150.bam", "SRR30646148.bam")) %>%
+hashdf = read.csv("hashes_2026Aug10.csv") %>%
   filter(!str_detect(File, "ERR2756166|SRR30646150|SRR30646148")) %>%
+  filter(!str_detect(Tool, "sambamba")) %>%
   mutate(
     Sample = case_when(
       str_detect(File, "ERR2756166") ~ "T. pallidum 1",
@@ -371,7 +395,6 @@ cor = plot_data %>%
     fontface = "bold",
     min.segment.length = 100) +
 
-    # annotate("text", x = 2.2e9, y = 2.2e9 + 0.2e9, angle = 45, label = "y = x") +
     annotate("text", x = 1.3e9, y = 1.3e9 + 0.25e9, angle = 45, label = "y = x") +
 
     annotate("text", x = Inf, y = -Inf,
@@ -387,9 +410,6 @@ cor = plot_data %>%
     scale_x_continuous(labels = scientific_label, breaks = c(1e8, 1e9, 2e9, 3e9, 4e9, 5e9), limits = c(1e8, 5e9), expand = c(0, 0)) +
     scale_y_continuous(labels = scientific_label, breaks = c(1e8, 1e9, 2e9, 3e9, 4e9, 5e9), limits = c(1e8, 5e9), expand = c(0, 0)) +
 
-    # scale_x_continuous(labels = label_scientific(), breaks = c(1e8, 1e9, 2e9, 3e9, 4e9, 5e9), limits = c(1e8, 5e9), expand = c(0, 0)) +
-    # scale_y_continuous(labels = label_scientific(), breaks = c(1e8, 1e9, 2e9, 3e9, 4e9, 5e9), limits = c(1e8, 5e9), expand = c(0, 0)) +
-  
     theme_classic() +
     theme(
       legend.position = c(0.12, 0.85),
@@ -440,65 +460,111 @@ mean_perbase_mem = mean(rawdf_sum$mean_mem[rawdf_sum$Tool == "perbase base-depth
 
 ```
 
-### !OLD!, not used in current version of paper
-# Calculate some stats for the paper
+# Per-file summary statistics
 ```{r}
-tmax_plp_sam = rawdf %>%
-  group_by(File) %>%
-  mutate(diff = max(Runtime[Tool == "samtools mpileup"]) / min(Runtime[Tool == "pileup-hi plp"])) %>%
-  pull(diff) %>%
-  max()
-print(paste0("Up to ", round(tmax_plp_sam, 1), "x improvement in runtime relative to samtools mpileup"))
-
-mmax_plp_sam = rawdf %>%
-  group_by(File) %>%
-  mutate(diff = max(Peak.memory.used[Tool == "samtools mpileup"]) / min(Peak.memory.used[Tool == "pileup-hi plp"])) %>%
-  pull(diff) %>%
-  max()
-print(paste0("Up to ", round(mmax_plp_sam, 1), "x improvement in memory relative to samtools mpileup"))
-
-tmax_plp_per = rawdf %>%
-  group_by(File, threads) %>%
-  mutate(diff = max(Runtime[Tool == "perbase base-depth"]) / min(Runtime[Tool == "pileup-hi plp"])) %>%
-  pull(diff) %>%
-  max()
-print(paste0("Up to ", round(tmax_plp_per, 1), "x improvement in runtime relative to perbase base-depth"))
-
-mmax_plp_per = rawdf %>%
-  group_by(File, threads) %>%
-  mutate(diff = max(Peak.memory.used[Tool == "perbase base-depth"]) / min(Peak.memory.used[Tool == "pileup-hi plp"])) %>%
-  pull(diff) %>%
-  max()
-print(paste0("Up to ", round(mmax_plp_per, 1), "x improvement in memory relative to perbase base-depth"))
-
-mmax_plp_per_df = rawdf %>%
-  group_by(File, threads) %>%
-  mutate(diff = max(Peak.memory.used[Tool == "perbase base-depth"]) / min(Peak.memory.used[Tool == "pileup-hi plp"]))
-
-# difference in runtime between samtools mpileup and other tools when threads == 1
-t1_runtime = rawdf_sum %>% 
-  filter(threads == 1) %>%
-  group_by(File) %>% 
-  mutate(diff = mean(mean_runtime[Tool == "samtools mpileup"]) / mean(mean_runtime[Tool %in% c("pileup-hi plp", "perbase base-depth")])) %>%
-  pull(diff)
-
-t1_runtime_min = t1_runtime %>% min()
-t1_runtime_max = t1_runtime %>% max()
-print(paste0("With one thread, pileup-hi and perbase base-depth ran anywhere from ", round(t1_runtime_min, 1), " to ", round(t1_runtime_max, 1), "x faster than samtools mpileup"))
-
-max_mem_hi = rawdf %>%  filter(Tool == "pileup-hi plp") %>% pull(Peak.memory.used) %>% max() 
-max_mem_perbase = rawdf %>% filter(Tool == "perbase base-depth") %>% pull(Peak.memory.used) %>% max()
-mean_mem_perbase = rawdf %>% filter(Tool == "perbase base-depth") %>% pull(Peak.memory.used) %>% mean()
-
-runtime_comp_t1 = rawdf_sum %>%
-  filter(Tool %in% c("pileup-hi plp", "perbase base-depth") & threads == 1) %>%
-  group_by(File) %>%
-  mutate(runtime_diff = (max(mean_runtime) - min(mean_runtime)) / max(mean_runtime))
-
-minmem = rawdf_sum %>%
+per_file_table = rawdf_sum %>%
   filter(Tool != "pileup-hi histo") %>%
-  group_by(File) %>%
-  slice_min(mean_mem, n = 1)
+  select(File, Sample, Tool, threads, Runtime_s = mean_runtime, Memory_GB = mean_mem) %>%
+  mutate(
+    threads = as.character(threads),
+    Tool = factor(Tool, levels = c("samtools mpileup", "parallel samtools mpileup", "sambamba mpileup", "perbase base-depth", "bam_readcount", "pileup-hi"))
+  ) %>%
+  pivot_wider(
+    names_from = Tool,
+    values_from = c(Runtime_s, Memory_GB),
+    names_glue = "{Tool}: {.value}"
+  )
 
-print(sizedf %>% mutate(perc = 100 - perc) %>% select(Tool, File, perc))
+knitr::kable(
+  per_file_table %>%
+    select(File, Sample, threads, ends_with("Runtime_s")),
+  digits = 1,
+  format = "pipe"
+)
+
+knitr::kable(
+  per_file_table %>%
+    select(File, Sample, threads, ends_with("Memory_GB")),
+  digits = 2,
+  format = "pipe"
+)
+```
+
+```{r}
+best_thread_table = rawdf_sum %>%
+  filter(Tool != "pileup-hi histo") %>%
+  select(File, Sample, Tool, threads, mean_runtime, mean_mem) %>%
+  group_by(File, Tool) %>%
+  slice_max(as.numeric(as.character(threads)), n = 1, with_ties = FALSE) %>%
+  ungroup() %>%
+  group_by(File) %>%
+  mutate(
+    runtime_fold = mean_runtime / mean_runtime[Tool == "pileup-hi"],
+    memory_fold = mean_mem / mean_mem[Tool == "pileup-hi"]
+  ) %>%
+  ungroup() %>%
+  filter(Tool != "pileup-hi") %>%
+  arrange(File, Tool)
+
+knitr::kable(best_thread_table, digits = 3, format = "pipe", col.names = c("File", "Sample", "Tool", "Threads", "Runtime_s", "Memory_GB", "Runtime_x_pileup-hi", "Memory_x_pileup-hi"))
+```
+
+```{r}
+pileuphi_improvement = function(tool) {
+  best_thread_table %>%
+    filter(Tool == tool) %>%
+    mutate(
+      cpu = if_else(
+        runtime_fold > 1,
+        paste0("ran ", sprintf("%.1f", runtime_fold), "x faster"),
+        paste0("ran ", sprintf("%.1f", 1 / runtime_fold), "x slower")
+      ),
+      mem = if_else(
+        memory_fold > 1,
+        paste0("used ", sprintf("%.1f", memory_fold), "x less peak memory"),
+        paste0("used ", sprintf("%.1f", 1 / memory_fold), "x more peak memory")
+      ),
+      sentence = paste0(
+        "On ", Sample, " (", File, "), pileup-hi (12 threads) ", cpu, " and ",
+        mem, " than ", tool, " (", threads, " threads)"
+      )
+    ) %>%
+    pull(sentence)
+}
+
+max_improvement = function(tool) {
+  d = best_thread_table %>% filter(Tool == tool)
+  d = d %>% mutate(mem_fav = pmax(memory_fold, 1 / memory_fold),
+                   mem_dir = if_else(memory_fold > 1, "less", "more"))
+  rt_best = d %>% slice_max(runtime_fold, n = 1)
+  mem_best = d %>% slice_max(mem_fav, n = 1)
+  paste0(
+    "vs ", tool, ": up to ", sprintf("%.1f", rt_best$runtime_fold), "x ",
+    if_else(rt_best$runtime_fold > 1, "faster", "slower"),
+    " (", rt_best$Sample, "), up to ",
+    sprintf("%.1f", mem_best$mem_fav), "x ", mem_best$mem_dir,
+    " peak memory (", mem_best$Sample, ")"
+  )
+}
+
+comparable_tools = setdiff(as.character(unique(best_thread_table$Tool)), "bam_readcount")
+```
+
+```{r}
+for (t in comparable_tools) {
+  cat("\n-- vs ", t, " --\n", sep = "")
+  cat(pileuphi_improvement(t), sep = "\n")
+}
+cat("\n-- max improvements --\n")
+cat(vapply(comparable_tools, max_improvement, character(1)), sep = "\n")
+```
+
+```{r}
+knitr::kable(
+  sizedf %>%
+    mutate(`Size (GB)` = signif(Size, 3), `Output size reduction (%)` = round(100 - perc, 1)) %>%
+    select(File, Sample, Mode, `Size (GB)`, `Output size reduction (%)`),
+  digits = 2,
+  format = "pipe"
+)
 ```

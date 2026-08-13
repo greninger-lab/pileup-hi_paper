@@ -1,4 +1,4 @@
-from bench import run_pileuphi, run_sambamba, update_report
+from bench import run_pileuphi, update_report
 import subprocess
 import pandas as pd
 from datetime import datetime
@@ -15,7 +15,6 @@ FILES = [
 METHODS = [
         (run_pileuphi, "plp", 12),
         (run_pileuphi, "histo", 12),
-        (run_sambamba, "plp", 12)
         ]
 
 
@@ -29,7 +28,7 @@ def compare():
 
     for file in FILES:
         for method_func, mode, threads in METHODS:
-            tool, cmd = method_func(file, mode, threads)
+            _tool, cmd = method_func(file, mode, threads)
 
             tool_proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
             wc_proc = subprocess.Popen(

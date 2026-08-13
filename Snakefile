@@ -16,21 +16,21 @@ MANIFEST = "bam_manifest.b3sum"
 REPORTS_DIR = "reports"
 HASHES_DIR = "hashes"
 
-# Zenodo records mapping to the BAM files they contain
+# zenodo acc to bams
 ZENODO_BAM_RECORDS = {
     "19612806": ["SRR36374445_hg38.bam"],
     "19613934": ["SRR19895870.bam", "SRR30646149_hg38.bam"],
     "19614468": ["ERR2756169_merged.bam"],
 }
 
-# DRR is split into 3 pieces across 3 records
+# we had to split DRR across 3 chunks for it to fit on zenodo.
 ZENODO_DRR_PART_RECORDS = [
     ("21480618", "DRR793869_hg38.part_aa"),
     ("21480649", "DRR793869_hg38.part_ab"),
     ("21480662", "DRR793869_hg38.part_ac"),
 ]
 
-# All non-DRR BAM files (downloaded directly from Zenodo)
+# non-DRR bams
 ZENODO_BAM_FILES = []
 for bams in ZENODO_BAM_RECORDS.values():
     ZENODO_BAM_FILES.extend(bams)
@@ -62,17 +62,10 @@ rule all:
         "figures/_done",
 
 rule download_all:
-    """Download all BAMs from Zenodo (non-DRR and DRR pieces)."""
     input:
         ZENODO_BAM_FILES + ["DRR793869_hg38.part_aa", "DRR793869_hg38.part_ab", "DRR793869_hg38.part_ac"],
 
-
-# ---------------------------------------------------------------------------
-# Download BAMs from Zenodo (non-DRR)
-# ---------------------------------------------------------------------------
-
 rule download_bams:
-    """Download all BAMs from Zenodo records (filters to .bam/.bai only)."""
     output:
         bams = ZENODO_BAM_FILES,
     run:
@@ -90,12 +83,8 @@ rule download_bams:
                 subprocess.run(["curl", "-L", "-o", key, dl_url], check=True)
 
 
-# ---------------------------------------------------------------------------
-# Download and reconstruct DRR
-# ---------------------------------------------------------------------------
-
+# download and merge DRR parts
 rule download_drr_parts:
-    """Download the three DRR pieces from Zenodo."""
     output:
         parts = ["DRR793869_hg38.part_aa", "DRR793869_hg38.part_ab", "DRR793869_hg38.part_ac"],
     run:
@@ -113,7 +102,6 @@ rule download_drr_parts:
 
 
 rule reconstruct_drr:
-    """Concatenate DRR pieces into DRR793869_hg38.bam and verify checksum."""
     input:
         "DRR793869_hg38.part_aa",
         "DRR793869_hg38.part_ab",
@@ -127,7 +115,6 @@ rule reconstruct_drr:
         )
         for p in Path(".").glob("DRR793869_hg38.part_*"):
             p.unlink()
-        # Verify reconstructed BAM matches manifest
         expected = all_bam_checksums["DRR793869_hg38.bam"]
         actual = _b3sum("DRR793869_hg38.bam")
         if actual != expected:
@@ -137,10 +124,7 @@ rule reconstruct_drr:
             )
 
 
-# ---------------------------------------------------------------------------
-# Index and verify
-# ---------------------------------------------------------------------------
-
+# index for files with missing .bai
 rule ensure_index:
     input:
         bam = "{bam}",
@@ -153,7 +137,6 @@ rule ensure_index:
 
 
 rule verify_download:
-    """Verify BAM checksums against manifest (bai is regenerated locally)."""
     input:
         bam = "{bam}",
         bai = "{bam}.bai",
@@ -171,7 +154,7 @@ rule verify_download:
 
 
 # ---------------------------------------------------------------------------
-# Analysis rules
+# analysis
 # ---------------------------------------------------------------------------
 
 rule bench:
@@ -180,6 +163,7 @@ rule bench:
     output:
         done = touch(REPORTS_DIR + "/{bam}.done"),
     run:
+				subprocess.run(["ulimit", "-n", "65336"], check = True)
         subprocess.run(["python", BENCH_SCRIPT], check=True)
 
 
@@ -189,8 +173,8 @@ rule compare_output:
     output:
         done = touch(HASHES_DIR + "/{bam}.done"),
     run:
+				subprocess.run(["ulimit", "-n", "65336"], check = True)
         subprocess.run(["python", COMPARE_OUTPUT_SCRIPT], check=True)
-
 
 rule compare_size:
     input:
@@ -200,24 +184,7 @@ rule compare_size:
     run:
         subprocess.run(["python", COMPARE_SIZE_SCRIPT], check=True)
 
-
-rule alignment_metrics:
-    input:
-        verified = "{bam}.verified",
-        bam = "{bam}",
-    output:
-        done = touch("alignment_metrics_{bam}.done"),
-    run:
-        subprocess.run(["bash", METRICS_SCRIPT], check=True)
-
-
 rule figures:
-    input:
-        bench = [REPORTS_DIR + "/" + b + ".done" for b in BAMS],
-        hashes_comp = [HASHES_DIR + "/" + b + ".done" for b in BAMS],
-        size_comp = ["size_comp_" + b + ".done" for b in BAMS],
-    output:
-        touch("figures/_done"),
     run:
         env = os.environ.copy()
         env["R_LIBS"] = ".pixi/envs/default/lib/R/library"
@@ -225,16 +192,3 @@ rule figures:
             ["Rscript", "-e", 'rmarkdown::render("bench.Rmd")'],
             check=True, env=env
         )
-
-
-rule clean:
-    run:
-        import shutil
-        for d in [REPORTS_DIR, HASHES_DIR, "results", "figures", "outputs", "_download"]:
-            shutil.rmtree(d, ignore_errors=True)
-        for p in Path(".").glob("size_comp_*.csv"):
-            p.unlink()
-        for p in Path(".").glob("*.done"):
-            p.unlink()
-        for p in Path(".").glob("alignment_metrics_*.done"):
-            p.unlink()

@@ -1,0 +1,396 @@
+Tool,Mode,File,Peak memory used,Runtime,Status,Input reads (mapped),Iteration
+bam_readcount,plp,DRR793869_hg38.bam,0.009422302,28800.10793,Terminated,3666042016,0
+para_mpileup 12 threads,plp,DRR793869_hg38.bam,2.263206482,4349.266102,Completed,3666042016,0
+para_mpileup 12 threads,plp,DRR793869_hg38.bam,2.263256073,4553.020441,Completed,3666042016,1
+para_mpileup 12 threads,plp,DRR793869_hg38.bam,2.264774323,4903.579344,Completed,3666042016,2
+para_mpileup 4 threads,plp,DRR793869_hg38.bam,2.092559814,6808.586675,Completed,3666042016,0
+para_mpileup 4 threads,plp,DRR793869_hg38.bam,2.069568634,6814.240028,Completed,3666042016,1
+para_mpileup 4 threads,plp,DRR793869_hg38.bam,2.088035583,6809.414445,Completed,3666042016,2
+para_mpileup 8 threads,plp,DRR793869_hg38.bam,2.091438293,5114.310819,Completed,3666042016,0
+para_mpileup 8 threads,plp,DRR793869_hg38.bam,2.086490631,5158.027896,Completed,3666042016,1
+para_mpileup 8 threads,plp,DRR793869_hg38.bam,2.078620911,5162.889392,Completed,3666042016,2
+perbase base-depth 1 threads,plp,DRR793869_hg38.bam,7.680847168,10715.88481,Completed,3666042016,0
+perbase base-depth 1 threads,plp,DRR793869_hg38.bam,7.734909058,10866.84495,Completed,3666042016,1
+perbase base-depth 1 threads,plp,DRR793869_hg38.bam,7.516819,10859.01725,Completed,3666042016,2
+perbase base-depth 1 threads -c50000,plp,DRR793869_hg38.bam,7.242008209,11590.39548,Completed,3666042016,0
+perbase base-depth 1 threads -c50000,plp,DRR793869_hg38.bam,7.233722687,11883.76173,Completed,3666042016,1
+perbase base-depth 1 threads -c50000,plp,DRR793869_hg38.bam,7.252563477,11588.31017,Completed,3666042016,2
+perbase base-depth 12 threads,plp,DRR793869_hg38.bam,15.6024971,3682.888788,Completed,3666042016,0
+perbase base-depth 12 threads,plp,DRR793869_hg38.bam,15.89255905,3752.772035,Completed,3666042016,1
+perbase base-depth 12 threads,plp,DRR793869_hg38.bam,16.16366196,3703.73622,Completed,3666042016,2
+perbase base-depth 12 threads -c50000,plp,DRR793869_hg38.bam,11.22089767,3639.99859,Completed,3666042016,0
+perbase base-depth 12 threads -c50000,plp,DRR793869_hg38.bam,11.20219803,3658.558676,Completed,3666042016,0
+perbase base-depth 12 threads -c50000,plp,DRR793869_hg38.bam,11.54357529,3675.479068,Completed,3666042016,1
+perbase base-depth 4 threads,plp,DRR793869_hg38.bam,7.984539032,7033.603826,Completed,3666042016,0
+perbase base-depth 4 threads,plp,DRR793869_hg38.bam,7.92861557,7016.888049,Completed,3666042016,1
+perbase base-depth 4 threads,plp,DRR793869_hg38.bam,8.008281708,7083.577578,Completed,3666042016,2
+perbase base-depth 4 threads -c50000,plp,DRR793869_hg38.bam,7.565502167,7470.849324,Completed,3666042016,0
+perbase base-depth 4 threads -c50000,plp,DRR793869_hg38.bam,7.721885681,7704.531673,Completed,3666042016,1
+perbase base-depth 4 threads -c50000,plp,DRR793869_hg38.bam,7.543792725,7678.812877,Completed,3666042016,2
+perbase base-depth 8 threads,plp,DRR793869_hg38.bam,12.53820801,4050.088046,Completed,3666042016,0
+perbase base-depth 8 threads,plp,DRR793869_hg38.bam,12.55699539,4292.006264,Completed,3666042016,1
+perbase base-depth 8 threads,plp,DRR793869_hg38.bam,12.45860291,4082.704012,Completed,3666042016,2
+perbase base-depth 8 threads -c50000,plp,DRR793869_hg38.bam,9.736354828,4172.650769,Completed,3666042016,0
+perbase base-depth 8 threads -c50000,plp,DRR793869_hg38.bam,10.02243805,4320.198355,Completed,3666042016,1
+perbase base-depth 8 threads -c50000,plp,DRR793869_hg38.bam,10.20182037,4199.010324,Completed,3666042016,2
+pileuphi 1 threads,histo,DRR793869_hg38.bam,3.246501923,13505.42845,Completed,3666042016,0
+pileuphi 1 threads,histo,DRR793869_hg38.bam,3.259456635,12982.63073,Completed,3666042016,1
+pileuphi 1 threads,histo,DRR793869_hg38.bam,3.295379639,13148.544,Completed,3666042016,2
+pileuphi 1 threads,plp,DRR793869_hg38.bam,3.306957245,15567.64579,Completed,3666042016,0
+pileuphi 1 threads,plp,DRR793869_hg38.bam,3.326431274,15625.53773,Completed,3666042016,1
+pileuphi 1 threads,plp,DRR793869_hg38.bam,3.334144592,15859.10872,Completed,3666042016,2
+pileuphi 12 threads,histo,DRR793869_hg38.bam,3.757667542,2113.875169,Completed,3666042016,0
+pileuphi 12 threads,histo,DRR793869_hg38.bam,3.783626556,2117.373943,Completed,3666042016,1
+pileuphi 12 threads,histo,DRR793869_hg38.bam,3.757713318,2140.409311,Completed,3666042016,2
+pileuphi 12 threads,plp,DRR793869_hg38.bam,3.793083191,2678.475798,Completed,3666042016,2
+pileuphi 12 threads,plp,DRR793869_hg38.bam,3.794174194,2684.841853,Completed,3666042016,1
+pileuphi 12 threads,plp,DRR793869_hg38.bam,3.780059814,2593.775752,Completed,3666042016,0
+pileuphi 4 threads,histo,DRR793869_hg38.bam,3.954494476,3556.864655,Completed,3666042016,0
+pileuphi 4 threads,histo,DRR793869_hg38.bam,4.108287811,3533.166704,Completed,3666042016,1
+pileuphi 4 threads,histo,DRR793869_hg38.bam,4.024059296,3647.941839,Completed,3666042016,2
+pileuphi 4 threads,plp,DRR793869_hg38.bam,3.902927399,4344.297435,Completed,3666042016,0
+pileuphi 4 threads,plp,DRR793869_hg38.bam,3.766403198,4461.91818,Completed,3666042016,1
+pileuphi 4 threads,plp,DRR793869_hg38.bam,3.826477051,4454.310597,Completed,3666042016,2
+pileuphi 8 threads,histo,DRR793869_hg38.bam,4.214080811,2226.14907,Completed,3666042016,0
+pileuphi 8 threads,histo,DRR793869_hg38.bam,4.240753174,2215.784835,Completed,3666042016,1
+pileuphi 8 threads,histo,DRR793869_hg38.bam,4.402980804,2304.626048,Completed,3666042016,2
+pileuphi 8 threads,plp,DRR793869_hg38.bam,4.258537292,2904.959437,Completed,3666042016,0
+pileuphi 8 threads,plp,DRR793869_hg38.bam,4.19732666,3011.014359,Completed,3666042016,1
+pileuphi 8 threads,plp,DRR793869_hg38.bam,4.079257965,3169.968173,Completed,3666042016,2
+sambamba mpileup 1 threads,plp,DRR793869_hg38.bam,1.368862152,17570.9957,Completed,3666042016,0
+sambamba mpileup 1 threads,plp,DRR793869_hg38.bam,1.462505341,17894.14396,Completed,3666042016,1
+sambamba mpileup 1 threads,plp,DRR793869_hg38.bam,1.573165894,17966.52081,Completed,3666042016,2
+sambamba mpileup 12 threads,plp,DRR793869_hg38.bam,7.46276474,7084.567432,Completed,3666042016,0
+sambamba mpileup 12 threads,plp,DRR793869_hg38.bam,7.652721405,7283.611931,Completed,3666042016,1
+sambamba mpileup 12 threads,plp,DRR793869_hg38.bam,7.510318756,6837.062441,Completed,3666042016,2
+sambamba mpileup 4 threads,plp,DRR793869_hg38.bam,4.138774872,6923.722697,Completed,3666042016,0
+sambamba mpileup 4 threads,plp,DRR793869_hg38.bam,3.854152679,7125.134072,Completed,3666042016,1
+sambamba mpileup 4 threads,plp,DRR793869_hg38.bam,3.957057953,6990.913709,Completed,3666042016,2
+sambamba mpileup 8 threads,plp,DRR793869_hg38.bam,5.53509903,6360.168576,Completed,3666042016,0
+sambamba mpileup 8 threads,plp,DRR793869_hg38.bam,5.402973175,6046.944045,Completed,3666042016,1
+sambamba mpileup 8 threads,plp,DRR793869_hg38.bam,5.487182617,5896.244689,Completed,3666042016,2
+samtools mpileup,plp,DRR793869_hg38.bam,2.061325073,17397.52433,Completed,3666042016,0
+samtools mpileup,plp,DRR793869_hg38.bam,2.063037872,16752.80622,Completed,3666042016,1
+samtools mpileup,plp,DRR793869_hg38.bam,2.047885895,16831.51953,Completed,3666042016,2
+samtools mpileup,plp,ERR2756166_merged.bam,0.058677673,1090.202677,Completed,270217002,0
+samtools mpileup,plp,ERR2756166_merged.bam,0.058551788,1085.704947,Completed,270217002,1
+samtools mpileup,plp,ERR2756166_merged.bam,0.05859375,1072.773243,Completed,270217002,2
+bam_readcount,plp,ERR2756169_merged.bam,0.01051712,1240.302427,Completed,204289198,0
+bam_readcount,plp,ERR2756169_merged.bam,0.011138916,1267.297031,Completed,204289198,1
+bam_readcount,plp,ERR2756169_merged.bam,0.010570526,1239.055241,Completed,204289198,2
+para_mpileup 12 threads,plp,ERR2756169_merged.bam,0.157989502,853.2990389,Completed,204289198,0
+para_mpileup 12 threads,plp,ERR2756169_merged.bam,0.158992767,856.4855661,Completed,204289198,1
+para_mpileup 12 threads,plp,ERR2756169_merged.bam,0.156452179,859.1950121,Completed,204289198,2
+para_mpileup 4 threads,plp,ERR2756169_merged.bam,0.131599426,906.8492119,Completed,204289198,0
+para_mpileup 4 threads,plp,ERR2756169_merged.bam,0.131286621,900.7675562,Completed,204289198,1
+para_mpileup 4 threads,plp,ERR2756169_merged.bam,0.129203796,898.1380048,Completed,204289198,2
+para_mpileup 8 threads,plp,ERR2756169_merged.bam,0.160320282,858.6144621,Completed,204289198,0
+para_mpileup 8 threads,plp,ERR2756169_merged.bam,0.156230927,863.7676289,Completed,204289198,1
+para_mpileup 8 threads,plp,ERR2756169_merged.bam,0.159008026,861.2368271,Completed,204289198,2
+perbase base-depth 1 threads,plp,ERR2756169_merged.bam,0.396945953,1080.211769,Completed,204289198,0
+perbase base-depth 1 threads,plp,ERR2756169_merged.bam,0.40920639,1100.685113,Completed,204289198,1
+perbase base-depth 1 threads,plp,ERR2756169_merged.bam,0.395633698,1098.234759,Completed,204289198,2
+perbase base-depth 1 threads -c50000,plp,ERR2756169_merged.bam,0.358802795,975.045572,Completed,204289198,0
+perbase base-depth 1 threads -c50000,plp,ERR2756169_merged.bam,0.388755798,975.5927081,Completed,204289198,1
+perbase base-depth 1 threads -c50000,plp,ERR2756169_merged.bam,0.366271973,988.0848477,Completed,204289198,2
+perbase base-depth 12 threads,plp,ERR2756169_merged.bam,2.020816803,1082.721328,Completed,204289198,0
+perbase base-depth 12 threads,plp,ERR2756169_merged.bam,2.024555206,1079.248164,Completed,204289198,1
+perbase base-depth 12 threads,plp,ERR2756169_merged.bam,2.024852753,1097.623382,Completed,204289198,2
+perbase base-depth 12 threads -c50000,plp,ERR2756169_merged.bam,2.142299652,740.658319,Completed,204289198,0
+perbase base-depth 12 threads -c50000,plp,ERR2756169_merged.bam,2.129703522,738.5873086,Completed,204289198,1
+perbase base-depth 12 threads -c50000,plp,ERR2756169_merged.bam,2.126819611,737.879766,Completed,204289198,2
+perbase base-depth 4 threads,plp,ERR2756169_merged.bam,0.678062439,1073.865955,Completed,204289198,0
+perbase base-depth 4 threads,plp,ERR2756169_merged.bam,0.740856171,1074.818825,Completed,204289198,1
+perbase base-depth 4 threads,plp,ERR2756169_merged.bam,0.741531372,1100.674232,Completed,204289198,2
+perbase base-depth 4 threads -c50000,plp,ERR2756169_merged.bam,0.529159546,857.2958357,Completed,204289198,0
+perbase base-depth 4 threads -c50000,plp,ERR2756169_merged.bam,0.527793884,841.1944971,Completed,204289198,1
+perbase base-depth 4 threads -c50000,plp,ERR2756169_merged.bam,0.526004791,841.2823219,Completed,204289198,2
+perbase base-depth 8 threads,plp,ERR2756169_merged.bam,1.368453979,1124.423969,Completed,204289198,0
+perbase base-depth 8 threads,plp,ERR2756169_merged.bam,1.369762421,1104.126289,Completed,204289198,1
+perbase base-depth 8 threads,plp,ERR2756169_merged.bam,1.350574493,1086.273228,Completed,204289198,2
+perbase base-depth 8 threads -c50000,plp,ERR2756169_merged.bam,1.354034424,722.2348883,Completed,204289198,0
+perbase base-depth 8 threads -c50000,plp,ERR2756169_merged.bam,1.349681854,718.7637639,Completed,204289198,1
+perbase base-depth 8 threads -c50000,plp,ERR2756169_merged.bam,1.349941254,722.677803,Completed,204289198,2
+pileuphi 1 threads,histo,ERR2756169_merged.bam,0.094219208,800.3025539,Completed,204289198,0
+pileuphi 1 threads,histo,ERR2756169_merged.bam,0.099105835,799.8248279,Completed,204289198,1
+pileuphi 1 threads,histo,ERR2756169_merged.bam,0.094974518,797.5232649,Completed,204289198,2
+pileuphi 1 threads,plp,ERR2756169_merged.bam,0.095912933,892.361881,Completed,204289198,0
+pileuphi 1 threads,plp,ERR2756169_merged.bam,0.091320038,883.5008349,Completed,204289198,1
+pileuphi 1 threads,plp,ERR2756169_merged.bam,0.091621399,885.2956672,Completed,204289198,2
+pileuphi 12 threads,histo,ERR2756169_merged.bam,0.396018982,595.636287,Completed,204289198,0
+pileuphi 12 threads,histo,ERR2756169_merged.bam,0.416763306,595.8276129,Completed,204289198,1
+pileuphi 12 threads,histo,ERR2756169_merged.bam,0.404823303,598.7705538,Completed,204289198,2
+pileuphi 12 threads,plp,ERR2756169_merged.bam,0.408138275,653.007463,Completed,204289198,0
+pileuphi 12 threads,plp,ERR2756169_merged.bam,0.443016052,651.4719317,Completed,204289198,1
+pileuphi 12 threads,plp,ERR2756169_merged.bam,0.412586212,653.0799129,Completed,204289198,2
+pileuphi 4 threads,histo,ERR2756169_merged.bam,0.175579071,535.1453199,Completed,204289198,0
+pileuphi 4 threads,histo,ERR2756169_merged.bam,0.184497833,538.0425198,Completed,204289198,1
+pileuphi 4 threads,histo,ERR2756169_merged.bam,0.179851532,540.117255,Completed,204289198,2
+pileuphi 4 threads,plp,ERR2756169_merged.bam,0.185283661,593.889987,Completed,204289198,0
+pileuphi 4 threads,plp,ERR2756169_merged.bam,0.174655914,589.4809842,Completed,204289198,1
+pileuphi 4 threads,plp,ERR2756169_merged.bam,0.17691803,590.0397298,Completed,204289198,2
+pileuphi 8 threads,histo,ERR2756169_merged.bam,0.286766052,585.7731552,Completed,204289198,0
+pileuphi 8 threads,histo,ERR2756169_merged.bam,0.280605316,584.8934309,Completed,204289198,1
+pileuphi 8 threads,histo,ERR2756169_merged.bam,0.289577484,587.752105,Completed,204289198,2
+pileuphi 8 threads,plp,ERR2756169_merged.bam,0.272865295,643.9173448,Completed,204289198,0
+pileuphi 8 threads,plp,ERR2756169_merged.bam,0.27930069,646.8659222,Completed,204289198,1
+pileuphi 8 threads,plp,ERR2756169_merged.bam,0.275829315,646.6362851,Completed,204289198,2
+sambamba mpileup 1 threads,plp,ERR2756169_merged.bam,0.913196564,1272.04757,Completed,204289198,0
+sambamba mpileup 1 threads,plp,ERR2756169_merged.bam,0.843612671,1263.312723,Completed,204289198,1
+sambamba mpileup 1 threads,plp,ERR2756169_merged.bam,0.978900909,1245.165553,Completed,204289198,2
+sambamba mpileup 12 threads,plp,ERR2756169_merged.bam,4.155033112,831.934963,Completed,204289198,0
+sambamba mpileup 12 threads,plp,ERR2756169_merged.bam,4.086021423,831.346935,Completed,204289198,1
+sambamba mpileup 12 threads,plp,ERR2756169_merged.bam,4.134380341,814.6524489,Completed,204289198,2
+sambamba mpileup 4 threads,plp,ERR2756169_merged.bam,1.43340683,871.2800932,Completed,204289198,0
+sambamba mpileup 4 threads,plp,ERR2756169_merged.bam,1.431167603,870.1865468,Completed,204289198,1
+sambamba mpileup 4 threads,plp,ERR2756169_merged.bam,1.386669159,845.434891,Completed,204289198,2
+sambamba mpileup 8 threads,plp,ERR2756169_merged.bam,3.342365265,884.6120751,Completed,204289198,0
+sambamba mpileup 8 threads,plp,ERR2756169_merged.bam,3.221630096,879.0405188,Completed,204289198,1
+sambamba mpileup 8 threads,plp,ERR2756169_merged.bam,3.054714203,862.9145591,Completed,204289198,2
+samtools mpileup,plp,ERR2756169_merged.bam,0.041275024,1291.641222,Completed,204289198,0
+samtools mpileup,plp,ERR2756169_merged.bam,0.041969299,1263.363433,Completed,204289198,1
+samtools mpileup,plp,ERR2756169_merged.bam,0.041423798,1273.935096,Completed,204289198,2
+bam_readcount,plp,SRR19895870.bam,0.009056091,28800.07796,Terminated,222946962,0
+para_mpileup 12 threads,plp,SRR19895870.bam,0.156101227,346.4991512,Completed,222946962,0
+para_mpileup 12 threads,plp,SRR19895870.bam,0.155246735,339.3725021,Completed,222946962,1
+para_mpileup 12 threads,plp,SRR19895870.bam,0.155399323,339.299365,Completed,222946962,2
+para_mpileup 4 threads,plp,SRR19895870.bam,0.074687958,686.745707,Completed,222946962,0
+para_mpileup 4 threads,plp,SRR19895870.bam,0.074012756,682.4624622,Completed,222946962,1
+para_mpileup 4 threads,plp,SRR19895870.bam,0.074180603,674.421263,Completed,222946962,2
+para_mpileup 8 threads,plp,SRR19895870.bam,0.116401672,401.7961459,Completed,222946962,0
+para_mpileup 8 threads,plp,SRR19895870.bam,0.115306854,396.5182478,Completed,222946962,1
+para_mpileup 8 threads,plp,SRR19895870.bam,0.115066528,397.6833198,Completed,222946962,2
+perbase base-depth 1 threads,plp,SRR19895870.bam,2.714992523,1385.586377,Completed,222946962,0
+perbase base-depth 1 threads,plp,SRR19895870.bam,2.136501312,1351.690681,Completed,222946962,1
+perbase base-depth 1 threads,plp,SRR19895870.bam,3.154117584,1386.647591,Completed,222946962,2
+perbase base-depth 1 threads -c50000,plp,SRR19895870.bam,0.772193909,1515.155518,Completed,222946962,0
+perbase base-depth 1 threads -c50000,plp,SRR19895870.bam,0.800598145,1453.586384,Completed,222946962,1
+perbase base-depth 1 threads -c50000,plp,SRR19895870.bam,0.691169739,1451.760417,Completed,222946962,2
+perbase base-depth 12 threads,plp,SRR19895870.bam,12.49035645,1206.611655,Completed,222946962,0
+perbase base-depth 12 threads,plp,SRR19895870.bam,13.01359177,1227.673083,Completed,222946962,1
+perbase base-depth 12 threads,plp,SRR19895870.bam,12.57500076,1227.592665,Completed,222946962,2
+perbase base-depth 12 threads -c50000,plp,SRR19895870.bam,17.73353577,1198.557503,Completed,222946962,0
+perbase base-depth 12 threads -c50000,plp,SRR19895870.bam,17.47893143,1238.141595,Completed,222946962,1
+perbase base-depth 12 threads -c50000,plp,SRR19895870.bam,19.92238235,1287.824556,Completed,222946962,2
+perbase base-depth 4 threads,plp,SRR19895870.bam,3.398406982,1138.419345,Completed,222946962,0
+perbase base-depth 4 threads,plp,SRR19895870.bam,3.963272095,1128.657652,Completed,222946962,1
+perbase base-depth 4 threads,plp,SRR19895870.bam,3.217674255,1116.127164,Completed,222946962,2
+perbase base-depth 4 threads -c50000,plp,SRR19895870.bam,0.851524353,1089.4399,Completed,222946962,0
+perbase base-depth 4 threads -c50000,plp,SRR19895870.bam,0.859622955,1085.941352,Completed,222946962,1
+perbase base-depth 4 threads -c50000,plp,SRR19895870.bam,0.834796906,1076.005644,Completed,222946962,2
+perbase base-depth 8 threads,plp,SRR19895870.bam,7.376777649,1182.036129,Completed,222946962,0
+perbase base-depth 8 threads,plp,SRR19895870.bam,6.877391815,1217.560913,Completed,222946962,1
+perbase base-depth 8 threads,plp,SRR19895870.bam,7.351230621,1189.520405,Completed,222946962,2
+perbase base-depth 8 threads -c50000,plp,SRR19895870.bam,8.794528961,1181.856215,Completed,222946962,0
+perbase base-depth 8 threads -c50000,plp,SRR19895870.bam,8.20141983,1196.267466,Completed,222946962,1
+perbase base-depth 8 threads -c50000,plp,SRR19895870.bam,10.48257065,1196.225483,Completed,222946962,2
+pileuphi 1 threads,histo,SRR19895870.bam,0.063861847,1088.031154,Completed,222946962,0
+pileuphi 1 threads,histo,SRR19895870.bam,0.072551727,1132.166324,Completed,222946962,1
+pileuphi 1 threads,histo,SRR19895870.bam,0.075286865,1092.624547,Completed,222946962,2
+pileuphi 1 threads,plp,SRR19895870.bam,0.066066742,1049.285744,Completed,222946962,0
+pileuphi 1 threads,plp,SRR19895870.bam,0.06502533,1043.162577,Completed,222946962,1
+pileuphi 1 threads,plp,SRR19895870.bam,0.071434021,1043.38501,Completed,222946962,2
+pileuphi 12 threads,histo,SRR19895870.bam,0.316169739,159.284606,Completed,222946962,0
+pileuphi 12 threads,histo,SRR19895870.bam,0.310165405,156.6127298,Completed,222946962,1
+pileuphi 12 threads,histo,SRR19895870.bam,0.315368652,164.7979269,Completed,222946962,2
+pileuphi 12 threads,plp,SRR19895870.bam,0.308769226,165.0104189,Completed,222946962,0
+pileuphi 12 threads,plp,SRR19895870.bam,0.304008484,159.694963,Completed,222946962,1
+pileuphi 12 threads,plp,SRR19895870.bam,0.294765472,168.5215008,Completed,222946962,2
+pileuphi 4 threads,histo,SRR19895870.bam,0.144569397,312.6881809,Completed,222946962,0
+pileuphi 4 threads,histo,SRR19895870.bam,0.14112854,312.337579,Completed,222946962,1
+pileuphi 4 threads,histo,SRR19895870.bam,0.147415161,307.7450581,Completed,222946962,2
+pileuphi 4 threads,plp,SRR19895870.bam,0.144592285,320.4330611,Completed,222946962,0
+pileuphi 4 threads,plp,SRR19895870.bam,0.142726898,281.4345527,Completed,222946962,1
+pileuphi 4 threads,plp,SRR19895870.bam,0.134391785,289.6427362,Completed,222946962,2
+pileuphi 8 threads,histo,SRR19895870.bam,0.22171402,176.955128,Completed,222946962,0
+pileuphi 8 threads,histo,SRR19895870.bam,0.22310257,175.937392,Completed,222946962,1
+pileuphi 8 threads,histo,SRR19895870.bam,0.211540222,175.322433,Completed,222946962,2
+pileuphi 8 threads,plp,SRR19895870.bam,0.223323822,178.6672859,Completed,222946962,0
+pileuphi 8 threads,plp,SRR19895870.bam,0.224388123,167.3119481,Completed,222946962,1
+pileuphi 8 threads,plp,SRR19895870.bam,0.206661224,176.4049141,Completed,222946962,2
+sambamba mpileup 1 threads,plp,SRR19895870.bam,1.229248047,2400.400987,Completed,222946962,0
+sambamba mpileup 1 threads,plp,SRR19895870.bam,1.093044281,2431.244831,Completed,222946962,1
+sambamba mpileup 1 threads,plp,SRR19895870.bam,1.139125824,2445.997801,Completed,222946962,2
+sambamba mpileup 12 threads,plp,SRR19895870.bam,3.956417084,482.221137,Completed,222946962,0
+sambamba mpileup 12 threads,plp,SRR19895870.bam,3.780658722,484.8868639,Completed,222946962,1
+sambamba mpileup 12 threads,plp,SRR19895870.bam,4.090415955,490.5104921,Completed,222946962,2
+sambamba mpileup 4 threads,plp,SRR19895870.bam,1.850818634,683.1146781,Completed,222946962,0
+sambamba mpileup 4 threads,plp,SRR19895870.bam,1.961063385,704.7802432,Completed,222946962,1
+sambamba mpileup 4 threads,plp,SRR19895870.bam,1.846824646,710.7795751,Completed,222946962,2
+sambamba mpileup 8 threads,plp,SRR19895870.bam,2.788188934,464.644645,Completed,222946962,0
+sambamba mpileup 8 threads,plp,SRR19895870.bam,2.795612335,470.216275,Completed,222946962,1
+sambamba mpileup 8 threads,plp,SRR19895870.bam,2.951896667,470.1501992,Completed,222946962,2
+samtools mpileup,plp,SRR19895870.bam,0.016349792,2086.643154,Completed,222946962,0
+samtools mpileup,plp,SRR19895870.bam,0.016326904,2073.16404,Completed,222946962,1
+samtools mpileup,plp,SRR19895870.bam,0.01612854,2069.384427,Completed,222946962,2
+para_mpileup 12 threads,plp,SRR30646148_hg38.bam,0.786849976,1181.510956,Completed,1115453491,0
+para_mpileup 12 threads,plp,SRR30646148_hg38.bam,0.785129547,1184.044151,Completed,1115453491,1
+para_mpileup 12 threads,plp,SRR30646148_hg38.bam,0.786094666,1184.303385,Completed,1115453491,2
+para_mpileup 4 threads,plp,SRR30646148_hg38.bam,0.586826324,2003.450259,Completed,1115453491,0
+para_mpileup 4 threads,plp,SRR30646148_hg38.bam,0.566623688,2002.375612,Completed,1115453491,1
+para_mpileup 4 threads,plp,SRR30646148_hg38.bam,0.590293884,2000.728501,Completed,1115453491,2
+para_mpileup 8 threads,plp,SRR30646148_hg38.bam,0.670246124,1427.599256,Completed,1115453491,0
+para_mpileup 8 threads,plp,SRR30646148_hg38.bam,0.668174744,1433.287323,Completed,1115453491,1
+para_mpileup 8 threads,plp,SRR30646148_hg38.bam,0.660987854,1428.215331,Completed,1115453491,2
+samtools mpileup,plp,SRR30646148_hg38.bam,0.534442902,5087.570536,Completed,1115453491,0
+samtools mpileup,plp,SRR30646148_hg38.bam,0.532775879,5043.759051,Completed,1115453491,1
+samtools mpileup,plp,SRR30646148_hg38.bam,0.530944824,5057.691041,Completed,1115453491,2
+bam_readcount,plp,SRR30646149_hg38.bam,0.531349182,28800.01587,Terminated,6314395,0
+para_mpileup 12 threads,plp,SRR30646149_hg38.bam,0.678237915,650.0023041,Completed,6314395,0
+para_mpileup 12 threads,plp,SRR30646149_hg38.bam,0.674694061,748.7457883,Completed,6314395,1
+para_mpileup 12 threads,plp,SRR30646149_hg38.bam,0.68321228,587.9835849,Completed,6314395,2
+para_mpileup 4 threads,plp,SRR30646149_hg38.bam,0.502891541,1177.730506,Completed,6314395,0
+para_mpileup 4 threads,plp,SRR30646149_hg38.bam,0.499126434,1431.610817,Completed,6314395,1
+para_mpileup 4 threads,plp,SRR30646149_hg38.bam,0.507358551,1164.326011,Completed,6314395,2
+para_mpileup 8 threads,plp,SRR30646149_hg38.bam,0.598339081,760.1865008,Completed,6314395,0
+para_mpileup 8 threads,plp,SRR30646149_hg38.bam,0.595573425,915.4316399,Completed,6314395,1
+para_mpileup 8 threads,plp,SRR30646149_hg38.bam,0.595615387,734.8419421,Completed,6314395,2
+perbase base-depth 1 threads,plp,SRR30646149_hg38.bam,1.892410278,2224.443461,Completed,6314395,0
+perbase base-depth 1 threads,plp,SRR30646149_hg38.bam,1.429660797,2221.574616,Completed,6314395,1
+perbase base-depth 1 threads,plp,SRR30646149_hg38.bam,2.331195831,2220.113097,Completed,6314395,2
+perbase base-depth 1 threads -c50000,plp,SRR30646149_hg38.bam,1.209392548,3263.480205,Completed,6314395,0
+perbase base-depth 1 threads -c50000,plp,SRR30646149_hg38.bam,1.175357819,3212.925191,Completed,6314395,1
+perbase base-depth 1 threads -c50000,plp,SRR30646149_hg38.bam,1.180438995,3203.212021,Completed,6314395,2
+perbase base-depth 12 threads,plp,SRR30646149_hg38.bam,13.20233917,971.1211028,Completed,6314395,0
+perbase base-depth 12 threads,plp,SRR30646149_hg38.bam,13.35271454,973.2335951,Completed,6314395,1
+perbase base-depth 12 threads,plp,SRR30646149_hg38.bam,13.06765366,971.9911618,Completed,6314395,2
+perbase base-depth 12 threads -c50000,plp,SRR30646149_hg38.bam,9.269817352,1014.531095,Completed,6314395,0
+perbase base-depth 12 threads -c50000,plp,SRR30646149_hg38.bam,9.64875412,1006.036872,Completed,6314395,1
+perbase base-depth 12 threads -c50000,plp,SRR30646149_hg38.bam,9.659553528,1013.094782,Completed,6314395,2
+perbase base-depth 4 threads,plp,SRR30646149_hg38.bam,2.91960144,1250.79114,Completed,6314395,0
+perbase base-depth 4 threads,plp,SRR30646149_hg38.bam,2.953643799,1227.901488,Completed,6314395,1
+perbase base-depth 4 threads,plp,SRR30646149_hg38.bam,2.544841766,1249.41919,Completed,6314395,2
+perbase base-depth 4 threads -c50000,plp,SRR30646149_hg38.bam,1.261386871,1967.43324,Completed,6314395,0
+perbase base-depth 4 threads -c50000,plp,SRR30646149_hg38.bam,1.209407806,1907.778224,Completed,6314395,1
+perbase base-depth 4 threads -c50000,plp,SRR30646149_hg38.bam,1.29486084,1922.635089,Completed,6314395,2
+perbase base-depth 8 threads,plp,SRR30646149_hg38.bam,7.310062408,924.665566,Completed,6314395,0
+perbase base-depth 8 threads,plp,SRR30646149_hg38.bam,7.375347137,926.9146929,Completed,6314395,1
+perbase base-depth 8 threads,plp,SRR30646149_hg38.bam,8.04851532,929.8252549,Completed,6314395,2
+perbase base-depth 8 threads -c50000,plp,SRR30646149_hg38.bam,6.05657959,1155.380048,Completed,6314395,0
+perbase base-depth 8 threads -c50000,plp,SRR30646149_hg38.bam,5.916488647,1143.662737,Completed,6314395,1
+perbase base-depth 8 threads -c50000,plp,SRR30646149_hg38.bam,5.984817505,1153.743181,Completed,6314395,2
+pileuphi 1 threads,histo,SRR30646149_hg38.bam,0.423816681,2027.921632,Completed,6314395,0
+pileuphi 1 threads,histo,SRR30646149_hg38.bam,0.418960571,2030.573031,Completed,6314395,1
+pileuphi 1 threads,histo,SRR30646149_hg38.bam,0.413967133,2028.263207,Completed,6314395,2
+pileuphi 1 threads,plp,SRR30646149_hg38.bam,0.426170349,2338.670795,Completed,6314395,0
+pileuphi 1 threads,plp,SRR30646149_hg38.bam,0.444477081,2329.119117,Completed,6314395,1
+pileuphi 1 threads,plp,SRR30646149_hg38.bam,0.434310913,2328.465564,Completed,6314395,2
+pileuphi 12 threads,histo,SRR30646149_hg38.bam,0.845367432,281.727603,Completed,6314395,0
+pileuphi 12 threads,histo,SRR30646149_hg38.bam,0.833885193,281.600337,Completed,6314395,1
+pileuphi 12 threads,histo,SRR30646149_hg38.bam,0.827869415,280.428437,Completed,6314395,2
+pileuphi 12 threads,plp,SRR30646149_hg38.bam,0.837867737,327.4809113,Completed,6314395,0
+pileuphi 12 threads,plp,SRR30646149_hg38.bam,0.803390503,326.4263802,Completed,6314395,1
+pileuphi 12 threads,plp,SRR30646149_hg38.bam,0.830795288,328.3226609,Completed,6314395,2
+pileuphi 4 threads,histo,SRR30646149_hg38.bam,0.483337402,566.39077,Completed,6314395,0
+pileuphi 4 threads,histo,SRR30646149_hg38.bam,0.488586426,565.501297,Completed,6314395,1
+pileuphi 4 threads,histo,SRR30646149_hg38.bam,0.488700867,563.8502958,Completed,6314395,2
+pileuphi 4 threads,plp,SRR30646149_hg38.bam,0.504554749,641.7326243,Completed,6314395,0
+pileuphi 4 threads,plp,SRR30646149_hg38.bam,0.515026093,633.1789351,Completed,6314395,1
+pileuphi 4 threads,plp,SRR30646149_hg38.bam,0.508972168,633.3311412,Completed,6314395,2
+pileuphi 8 threads,histo,SRR30646149_hg38.bam,0.649131775,319.3529491,Completed,6314395,0
+pileuphi 8 threads,histo,SRR30646149_hg38.bam,0.646266937,318.0828969,Completed,6314395,1
+pileuphi 8 threads,histo,SRR30646149_hg38.bam,0.633090973,317.6555836,Completed,6314395,2
+pileuphi 8 threads,plp,SRR30646149_hg38.bam,0.620319366,375.0180333,Completed,6314395,0
+pileuphi 8 threads,plp,SRR30646149_hg38.bam,0.655929565,371.2865517,Completed,6314395,1
+pileuphi 8 threads,plp,SRR30646149_hg38.bam,0.628238678,408.7811539,Completed,6314395,2
+sambamba mpileup 1 threads,plp,SRR30646149_hg38.bam,1.322460175,3895.231869,Completed,6314395,0
+sambamba mpileup 1 threads,plp,SRR30646149_hg38.bam,1.237575531,3873.717379,Completed,6314395,1
+sambamba mpileup 1 threads,plp,SRR30646149_hg38.bam,1.190093994,3877.431868,Completed,6314395,2
+sambamba mpileup 12 threads,plp,SRR30646149_hg38.bam,5.255016327,961.2101192,Completed,6314395,0
+sambamba mpileup 12 threads,plp,SRR30646149_hg38.bam,4.974456787,879.7974107,Completed,6314395,1
+sambamba mpileup 12 threads,plp,SRR30646149_hg38.bam,4.889190674,884.3317049,Completed,6314395,2
+sambamba mpileup 4 threads,plp,SRR30646149_hg38.bam,2.488056183,1216.379956,Completed,6314395,0
+sambamba mpileup 4 threads,plp,SRR30646149_hg38.bam,2.286029816,1134.906376,Completed,6314395,1
+sambamba mpileup 4 threads,plp,SRR30646149_hg38.bam,2.42565155,1155.174391,Completed,6314395,2
+sambamba mpileup 8 threads,plp,SRR30646149_hg38.bam,3.508045197,832.4291611,Completed,6314395,0
+sambamba mpileup 8 threads,plp,SRR30646149_hg38.bam,3.561920166,814.1456938,Completed,6314395,1
+sambamba mpileup 8 threads,plp,SRR30646149_hg38.bam,3.457122803,801.71088,Completed,6314395,2
+samtools mpileup,plp,SRR30646149_hg38.bam,0.789405823,3339.841855,Completed,6314395,0
+samtools mpileup,plp,SRR30646149_hg38.bam,0.787921906,3512.631866,Completed,6314395,0
+samtools mpileup,plp,SRR30646149_hg38.bam,0.805335999,3347.749149,Completed,6314395,1
+samtools mpileup,plp,SRR30646149_hg38.bam,0.804344177,3346.923375,Completed,6314395,2
+para_mpileup 12 threads,plp,SRR30646150_hg38.bam,0.703598022,669.0361829,Completed,6582188,0
+para_mpileup 12 threads,plp,SRR30646150_hg38.bam,0.697059631,599.6790888,Completed,6582188,1
+para_mpileup 12 threads,plp,SRR30646150_hg38.bam,0.696491241,598.40504,Completed,6582188,2
+para_mpileup 4 threads,plp,SRR30646150_hg38.bam,0.522605896,1253.525793,Completed,6582188,0
+para_mpileup 4 threads,plp,SRR30646150_hg38.bam,0.519481659,1174.365436,Completed,6582188,1
+para_mpileup 4 threads,plp,SRR30646150_hg38.bam,0.523052216,1174.229778,Completed,6582188,2
+para_mpileup 8 threads,plp,SRR30646150_hg38.bam,0.611606598,816.331275,Completed,6582188,0
+para_mpileup 8 threads,plp,SRR30646150_hg38.bam,0.61541748,721.2332492,Completed,6582188,1
+para_mpileup 8 threads,plp,SRR30646150_hg38.bam,0.609165192,722.6426241,Completed,6582188,2
+samtools mpileup,plp,SRR30646150_hg38.bam,0.851020813,3463.342734,Completed,6582188,0
+samtools mpileup,plp,SRR30646150_hg38.bam,0.831691742,3452.573323,Completed,6582188,1
+samtools mpileup,plp,SRR30646150_hg38.bam,0.838054657,3540.099706,Completed,6582188,2
+bam_readcount,plp,SRR36374445_hg38.bam,0.014389038,28800.09196,Terminated,746655952,0
+para_mpileup 12 threads,plp,SRR36374445_hg38.bam,0.981872559,1707.292613,Completed,746655952,0
+para_mpileup 12 threads,plp,SRR36374445_hg38.bam,0.957126617,1624.167156,Completed,746655952,1
+para_mpileup 12 threads,plp,SRR36374445_hg38.bam,0.953773499,1607.070477,Completed,746655952,2
+para_mpileup 4 threads,plp,SRR36374445_hg38.bam,0.820892334,2818.467293,Completed,746655952,0
+para_mpileup 4 threads,plp,SRR36374445_hg38.bam,0.848140717,2622.352649,Completed,746655952,1
+para_mpileup 4 threads,plp,SRR36374445_hg38.bam,0.829620361,2614.613684,Completed,746655952,2
+para_mpileup 8 threads,plp,SRR36374445_hg38.bam,0.926082611,1864.246708,Completed,746655952,0
+para_mpileup 8 threads,plp,SRR36374445_hg38.bam,0.932010651,1917.174252,Completed,746655952,1
+para_mpileup 8 threads,plp,SRR36374445_hg38.bam,0.931713104,1871.724097,Completed,746655952,2
+perbase base-depth 1 threads,plp,SRR36374445_hg38.bam,4.696907043,4210.038374,Completed,746655952,0
+perbase base-depth 1 threads,plp,SRR36374445_hg38.bam,1.825641632,4121.195844,Completed,746655952,1
+perbase base-depth 1 threads,plp,SRR36374445_hg38.bam,2.149925232,4248.417453,Completed,746655952,2
+perbase base-depth 1 threads -c50000,plp,SRR36374445_hg38.bam,1.57195282,5075.938189,Completed,746655952,0
+perbase base-depth 1 threads -c50000,plp,SRR36374445_hg38.bam,1.618724823,5045.015299,Completed,746655952,1
+perbase base-depth 1 threads -c50000,plp,SRR36374445_hg38.bam,1.625255585,5192.825167,Completed,746655952,2
+perbase base-depth 12 threads,plp,SRR36374445_hg38.bam,19.66057587,1350.335337,Completed,746655952,0
+perbase base-depth 12 threads,plp,SRR36374445_hg38.bam,20.05241394,1350.993979,Completed,746655952,1
+perbase base-depth 12 threads,plp,SRR36374445_hg38.bam,18.55215454,1366.393241,Completed,746655952,2
+perbase base-depth 12 threads -c50000,plp,SRR36374445_hg38.bam,4.753894806,1281.869421,Completed,746655952,0
+perbase base-depth 12 threads -c50000,plp,SRR36374445_hg38.bam,4.791465759,1279.790006,Completed,746655952,1
+perbase base-depth 12 threads -c50000,plp,SRR36374445_hg38.bam,4.864887238,1284.252767,Completed,746655952,2
+perbase base-depth 4 threads,plp,SRR36374445_hg38.bam,3.585212708,2415.993316,Completed,746655952,0
+perbase base-depth 4 threads,plp,SRR36374445_hg38.bam,2.997291565,2421.461187,Completed,746655952,1
+perbase base-depth 4 threads,plp,SRR36374445_hg38.bam,3.213432312,2556.720075,Completed,746655952,2
+perbase base-depth 4 threads -c50000,plp,SRR36374445_hg38.bam,1.78911972,2858.320496,Completed,746655952,0
+perbase base-depth 4 threads -c50000,plp,SRR36374445_hg38.bam,1.685714722,2849.425392,Completed,746655952,1
+perbase base-depth 4 threads -c50000,plp,SRR36374445_hg38.bam,1.741809845,2892.159534,Completed,746655952,2
+perbase base-depth 8 threads,plp,SRR36374445_hg38.bam,7.662139893,1430.75194,Completed,746655952,0
+perbase base-depth 8 threads,plp,SRR36374445_hg38.bam,7.336521149,1423.820052,Completed,746655952,1
+perbase base-depth 8 threads,plp,SRR36374445_hg38.bam,7.369571686,1482.100318,Completed,746655952,2
+perbase base-depth 8 threads -c50000,plp,SRR36374445_hg38.bam,3.352279663,1524.228314,Completed,746655952,0
+perbase base-depth 8 threads -c50000,plp,SRR36374445_hg38.bam,3.434364319,1514.487293,Completed,746655952,1
+perbase base-depth 8 threads -c50000,plp,SRR36374445_hg38.bam,3.479053497,1505.211796,Completed,746655952,2
+pileuphi 1 threads,histo,SRR36374445_hg38.bam,0.929302216,4816.005201,Completed,746655952,0
+pileuphi 1 threads,histo,SRR36374445_hg38.bam,0.900283813,4877.129356,Completed,746655952,1
+pileuphi 1 threads,histo,SRR36374445_hg38.bam,0.930789948,4812.009109,Completed,746655952,2
+pileuphi 1 threads,plp,SRR36374445_hg38.bam,0.917625427,5741.666953,Completed,746655952,0
+pileuphi 1 threads,plp,SRR36374445_hg38.bam,0.94631958,5600.734947,Completed,746655952,1
+pileuphi 1 threads,plp,SRR36374445_hg38.bam,0.945091248,5664.936207,Completed,746655952,2
+pileuphi 12 threads,histo,SRR36374445_hg38.bam,1.587104797,652.4000821,Completed,746655952,0
+pileuphi 12 threads,histo,SRR36374445_hg38.bam,1.574207306,654.5357571,Completed,746655952,1
+pileuphi 12 threads,histo,SRR36374445_hg38.bam,1.587341309,651.6567831,Completed,746655952,2
+pileuphi 12 threads,plp,SRR36374445_hg38.bam,1.472835541,773.9226711,Completed,746655952,0
+pileuphi 12 threads,plp,SRR36374445_hg38.bam,1.522964478,768.9910452,Completed,746655952,1
+pileuphi 12 threads,plp,SRR36374445_hg38.bam,1.456630707,767.7970808,Completed,746655952,2
+pileuphi 4 threads,histo,SRR36374445_hg38.bam,1.20167923,1274.55418,Completed,746655952,0
+pileuphi 4 threads,histo,SRR36374445_hg38.bam,1.137470245,1307.899212,Completed,746655952,1
+pileuphi 4 threads,histo,SRR36374445_hg38.bam,1.128803253,1273.192708,Completed,746655952,2
+pileuphi 4 threads,plp,SRR36374445_hg38.bam,1.134567261,1447.352785,Completed,746655952,0
+pileuphi 4 threads,plp,SRR36374445_hg38.bam,1.13451767,1449.851975,Completed,746655952,1
+pileuphi 4 threads,plp,SRR36374445_hg38.bam,1.09413147,1477.307492,Completed,746655952,2
+pileuphi 8 threads,histo,SRR36374445_hg38.bam,1.326553345,732.6316919,Completed,746655952,0
+pileuphi 8 threads,histo,SRR36374445_hg38.bam,1.296672821,733.0807822,Completed,746655952,1
+pileuphi 8 threads,histo,SRR36374445_hg38.bam,1.301151276,733.6738241,Completed,746655952,2
+pileuphi 8 threads,plp,SRR36374445_hg38.bam,1.332660675,870.168956,Completed,746655952,0
+pileuphi 8 threads,plp,SRR36374445_hg38.bam,1.334720612,872.7816782,Completed,746655952,1
+pileuphi 8 threads,plp,SRR36374445_hg38.bam,1.262306213,877.6589499,Completed,746655952,2
+sambamba mpileup 1 threads,plp,SRR36374445_hg38.bam,1.324588776,7308.599257,Completed,746655952,0
+sambamba mpileup 1 threads,plp,SRR36374445_hg38.bam,1.277423859,7157.062654,Completed,746655952,1
+sambamba mpileup 1 threads,plp,SRR36374445_hg38.bam,1.388988495,7189.143088,Completed,746655952,2
+sambamba mpileup 12 threads,plp,SRR36374445_hg38.bam,6.492893219,2431.89833,Completed,746655952,0
+sambamba mpileup 12 threads,plp,SRR36374445_hg38.bam,6.582214355,2438.192392,Completed,746655952,1
+sambamba mpileup 12 threads,plp,SRR36374445_hg38.bam,6.256019592,2434.184045,Completed,746655952,2
+sambamba mpileup 4 threads,plp,SRR36374445_hg38.bam,2.987236023,2409.179961,Completed,746655952,0
+sambamba mpileup 4 threads,plp,SRR36374445_hg38.bam,2.834117889,2348.858153,Completed,746655952,1
+sambamba mpileup 4 threads,plp,SRR36374445_hg38.bam,3.149177551,2621.0767,Completed,746655952,2
+sambamba mpileup 8 threads,plp,SRR36374445_hg38.bam,4.44298172,1871.257895,Completed,746655952,0
+sambamba mpileup 8 threads,plp,SRR36374445_hg38.bam,4.595264435,1959.223431,Completed,746655952,1
+sambamba mpileup 8 threads,plp,SRR36374445_hg38.bam,4.854465485,2061.823667,Completed,746655952,2
+samtools mpileup,plp,SRR36374445_hg38.bam,1.030239105,6687.278375,Completed,746655952,0
+samtools mpileup,plp,SRR36374445_hg38.bam,1.0311203,6601.121311,Completed,746655952,1
+samtools mpileup,plp,SRR36374445_hg38.bam,1.033973694,6468.744845,Completed,746655952,2
