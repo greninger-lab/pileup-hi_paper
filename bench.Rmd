@@ -12,7 +12,7 @@ library(scales)
 
 ```{r}
 rawdf = read.csv("bench_report_2026Aug10.csv") %>%
-  filter(!str_detect(Tool, "-c50000")) %>%
+  # filter(!str_detect(Tool, "-c50000")) %>%
   mutate(
     threads = if_else(
       str_detect(Tool, "thread"), gsub(".* ([0-9]{1,2}) thread.*", "\\1", Tool), "1"),
@@ -48,7 +48,7 @@ rawdf = read.csv("bench_report_2026Aug10.csv") %>%
 
 rawdf <- rawdf %>%
   mutate(
-    Tool = factor(Tool, levels = c("samtools mpileup", "parallel samtools mpileup", "sambamba mpileup", "bam_readcount", "perbase base-depth", "pileup-hi", "pileup-hi histo")),
+    Tool = factor(Tool, levels = c("samtools mpileup", "parallel samtools mpileup", "sambamba mpileup", "bam_readcount", "perbase base-depth", "perbase base-depth -c50000", "pileup-hi", "pileup-hi histo")),
     Sample = factor(Sample, levels = c("Human WGS - NovaSeq X Plus",  "Human WGS - Ultima", "Human WGS - Revio", "Rocoto pepper - NovaSeq 6000", "T. pallidum WGS - HiSeq 2500")),
     threads = factor(threads, levels = c("1", "4", "8", "12")),
   ) %>%
@@ -58,6 +58,7 @@ rawdf <- rawdf %>%
 # 
 rawdf_sum <- rawdf %>%
   filter(Status != "Terminated") %>%
+  filter(!str_detect(Tool, "-c50000")) %>%
   group_by(File, Sample, Tool, threads) %>%
   summarize(
     mean_runtime = mean(Runtime), median_runtime = median(Runtime), sd_runtime = sd(Runtime),
@@ -311,7 +312,7 @@ pileuphi_data <- hashdf %>%
   select(Sample, hash_pileuphi = Hash_numeric, Threads)
 
 samtools_data <- hashdf %>%
-  filter(Tool == "samtools mpileup") %>%
+  filter(Tool == "samtools") %>%
   select(Sample, hash_samtools = Hash_numeric)
 
 plot_data <- samtools_data %>%
@@ -564,6 +565,44 @@ knitr::kable(
   sizedf %>%
     mutate(`Size (GB)` = signif(Size, 3), `Output size reduction (%)` = round(100 - perc, 1)) %>%
     select(File, Sample, Mode, `Size (GB)`, `Output size reduction (%)`),
+  digits = 2,
+  format = "pipe"
+)
+```
+
+```{r}
+mem_summary = rawdf %>%
+  filter(Status != "Terminated") %>%
+  group_by(Tool) %>%
+  summarize(
+    `Mean peak mem (GB)` = mean(Peak.memory.used),
+    `Max peak mem (GB)` = max(Peak.memory.used),
+    `N runs` = n()
+  )
+
+samtools_1t = rawdf_sum %>%
+  ungroup() %>%
+  filter(Tool == "samtools mpileup") %>%
+  select(File, samtools_mem = mean_mem)
+
+mem_delta = rawdf_sum %>%
+  filter(Tool != "samtools mpileup") %>%
+  group_by(File, Tool) %>%
+  slice_max(as.numeric(as.character(threads)), n = 1, with_ties = FALSE) %>%
+  ungroup() %>%
+  left_join(samtools_1t, by = "File") %>%
+  mutate(delta_GB = mean_mem - samtools_mem) %>%
+  group_by(Tool) %>%
+  summarize(
+    `Max delta vs samtools (GB)` = max(delta_GB),
+    `Min delta vs samtools (GB)` = min(delta_GB)
+  )
+
+knitr::kable(
+  mem_summary %>%
+    left_join(mem_delta, by = "Tool") %>%
+    mutate(Tool = factor(Tool, levels = levels(rawdf$Tool))) %>%
+    arrange(Tool),
   digits = 2,
   format = "pipe"
 )
