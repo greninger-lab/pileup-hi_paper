@@ -163,7 +163,7 @@ rule bench:
     output:
         done = touch(REPORTS_DIR + "/{bam}.done"),
     run:
-				subprocess.run(["ulimit", "-n", "65336"], check = True)
+        subprocess.run(["ulimit", "-n", "65336"], check = True)
         subprocess.run(["python", BENCH_SCRIPT], check=True)
 
 
@@ -173,7 +173,7 @@ rule compare_output:
     output:
         done = touch(HASHES_DIR + "/{bam}.done"),
     run:
-				subprocess.run(["ulimit", "-n", "65336"], check = True)
+        subprocess.run(["ulimit", "-n", "65336"], check = True)
         subprocess.run(["python", COMPARE_OUTPUT_SCRIPT], check=True)
 
 rule compare_size:

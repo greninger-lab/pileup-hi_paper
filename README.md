@@ -6,7 +6,7 @@ For the pileup-hi tool itself (installation, usage, options), see [the main repo
 
 ---
 
-## Reproducing the analysis
+## Running the analysis
 
 ```bash
 # 1. Install pixi (package manager)
@@ -24,12 +24,9 @@ pixi run snakemake-dl
 # 5. Run the full analysis pipeline
 pixi run all
 
-# 6. Generate figures and supplementary tables
+# 6. Generate figures
 pixi run figures
-pixi run supp-tables
 ```
-
-Steps 1–6 will produce the benchmark data, output comparisons, figures, and supplementary tables used in the manuscript.
 
 ### Requirements
 
@@ -73,8 +70,6 @@ b3sum -c bam_manifest.b3sum
 
 ### `bench.py` — runtime and peak memory
 
-Records wall-clock time and peak RSS for each tool on each BAM. Results written to `reports/`.
-
 ```bash
 pixi run bench
 ```
@@ -88,17 +83,15 @@ By default, this runs all tools in triplicate:
 - **bam-readcount**: 1 thread
 - **pileup-hi histo**: 1, 4, 8, 12 threads
 
-To change the set of tools, BAMs, or iteration count, edit the `METHODS`, `FILES`, and `NUM_ITERATIONS` variables at the top of `bench.py`.
+To change the set of tools, BAMs, or iteration count, edit the `METHODS`, `FILES`, and `NUM_ITERATIONS` variables at the top of `bench.py`. Results are written to `reports/` with timestamps.
 
 ### `compare_output.py` — output hash comparison
-
-Pipes each tool's output through `b3sum` and records the digest. Used to verify deterministic output across thread counts and equivalence to samtools mpileup.
 
 ```bash
 pixi run compare-output
 ```
 
-Results are written to `hashes/` as timestamped CSV files.
+Results are written to `hashes/` with timestamps.
 
 ### `compare_size.py` — output size comparison
 
@@ -110,76 +103,20 @@ pixi run compare-size
 
 Results written to `size_comp_*.csv`.
 
-### Alignment metrics
-
-```bash
-pixi run metrics
-```
-
-Runs `get_metrics.sh` to compute depth, coverage, and related metrics.
-
-### Figures and supplementary tables
+### Figures
 
 ```bash
 pixi run figures
-pixi run supp-tables
 ```
-
 ---
 
 ## Tools compared
 
 | Tool | Version | Command |
 |------|---------|---------|
-| **pileup-hi** | 0.9.2 | `pileuphi` |
+| **pileup-hi** | 0.9.5 | `pileuphi` |
 | **samtools mpileup** | 1.23 | `samtools mpileup` |
 | **sambamba mpileup** | 1.0.1 | `sambamba mpileup` |
 | **perbase base-depth** | 1.2.0 | `perbase base-depth` |
 | **parallel mpileup** | — | `para_mpileup.sh` (shell wrapper around `samtools mpileup`) |
 | **bam-readcount** | latest | `bam-readcount` |
-
-### Flag consistency
-
-All tools are run with equivalent flags where possible:
-
-| Flag | All tools | Meaning |
-|------|-----------|---------|
-| `-d 0` | pileup-hi, samtools, perbase, para_mpileup | Unlimited depth |
-| `-q 0` | pileup-hi, samtools, sambamba | No minimum mapping quality |
-| `-Q 13` | pileup-hi, samtools, sambamba | Minimum base quality 13 |
-| `--ff 1796` | pileup-hi, samtools, sambamba | Exclude UNMAP, SECONDARY, QCFAIL, DUP |
-| `-F 3844` | perbase (default) | Exclude UNMAPPED, SECONDARY, QCFAIL, DUPLICATE, SUPPLEMENTARY |
-
-bam-readcount uses `--min-mapping-quality=0 --min-base-quality=0 --max-count=0`.
-
----
-
-## Output files
-
-| File | Description |
-|------|-------------|
-| `reports/bench_*.csv` | Runtime and memory benchmarks |
-| `hashes/*.csv` | Output hash results |
-| `size_comp_*.csv` | Output size comparisons |
-| `hashes_2026Feb27.csv` | Published output hashes (paper) |
-| `size_comp_2026Mar31.csv` | Published size comparison (paper) |
-| `bench_report_2026Mar30.csv` | Published benchmark data (paper) |
-
----
-
-## Scripts
-
-| Script | Description |
-|--------|-------------|
-| `bench.py` | Runtime and memory benchmarking |
-| `compare_output.py` | Output hash comparison (pileup-hi vs sambamba) |
-| `compare_size.py` | Output size comparison (plp vs histo) |
-| `scripts/setup_sambamba.sh` | macOS sambamba workaround |
-| `scripts/compare_streams.py` | Line-by-line stream comparison of two tools |
-| `para_mpileup.sh` | Parallel samtools mpileup wrapper |
-| `get_metrics.sh` | Alignment metrics computation |
-| `make_supp_tables.py` | Supplementary table generation |
-| `bench.Rmd` | Figure generation (Rmarkdown) |
-| `metrics.Rmd` | Metrics figure generation (Rmarkdown) |
-| `aln.sh` | BAM generation from FASTQ |
-| `dl.sh` | FASTQ download from SRA |
